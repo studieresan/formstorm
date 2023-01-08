@@ -1,0 +1,22 @@
+#main {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+td:nth-child(1) {
+  padding-right: 20px;
+}
+
+td:nth-child(2) {
+  width: 300px;
+}
+
+td:nth-child(2) input {
+  width: 100%;
+}
+
+#channel-input {
+  float: right;
+}

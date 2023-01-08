@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Studs Event Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script type="module">
+
+      import {FormWrapperFill} from '/js/rendered-react/FillForm.js';
+      import {FormWrapperPreview} from '/js/rendered-react/PreviewForm.js';
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const domContainer = document.querySelector('#react-container');
+      const root = ReactDOM.createRoot(domContainer);
+
+      if (urlParams.has('form_type_id')) {
+        let form_type_id = urlParams.get('form_type_id');
+        root.render(React.createElement(FormWrapperPreview, {form_type_id}));
+      } else if (urlParams.has('internal_id') && urlParams.has('prepost')) {
+        let internal_id = urlParams.get('internal_id');
+        let prepost = urlParams.get('prepost');
+        root.render(React.createElement(FormWrapperFill, {internal_id, prepost}));
+      } else {
+        root.render(React.createElement('h3', {}, 'Error: Invalid/missing url parameters!'));
+      }
+      
+    </script>
+  </body>
+</html>

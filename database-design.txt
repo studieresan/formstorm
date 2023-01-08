@@ -1,0 +1,3 @@
+prepost               0=Pre,1=Post
+form question type    0=text,1=radio,2=range
+status:               0=går själv, 1=inhoppare, 2=ingen går

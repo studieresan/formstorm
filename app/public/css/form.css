@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  position: relative;
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+legend {
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+  border-style: groove;
+  position: relative;
+  border-top: none;
+  border-bottom: none;
+}
+
+legend::after {
+  background: rgba(0, 0, 0, 0.3);
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(50% - 1px);
+  content: '';
+  z-index: -1;
+  box-shadow: 0 -2px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.range-flex {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.range-flex > * {
+  flex-grow: 1;
+}
+
+.flex-mid {
+  text-align: center;
+  padding-top: 15px;
+}
+
+.flex-right {
+  text-align: right;
+}
+
+#react-container {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 100px;
+}
+
+.range-label, #range-radio {
+  display: block;
+}
+
+input[type="radio"] {
+  width: 17px;
+  height: 17px;
+}
+
+textarea {
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  display: block;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  font-size: 20px;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background-color: #0d0d0d;
+  background-image: url("/img/form-bg.png");
+  background-repeat: repeat;
+  background-size: 100%;
+  color: white;
+}
+
+textarea {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.mandatory-span {
+  color: red;
+  margin-right: 3px;
+}
+
+.warning-text {
+  font-size: 16px;
+  position: relative;
+  top: -2px;
+}
+
+.warning-sign {
+  color: orange;
+  font-size: 24px;
+}
+
+.center {
+  text-align: center;
+}
+
+@media screen and (max-width: 950px) {
+  #react-container {
+    width: 95%;
+  }
+
+  .range-flex {
+    flex-direction: column;
+  }
+
+  .range-label, #range-radio {
+    display: inline;
+  }
+
+  .flex-left, .flex-right {
+    text-align: center;
+  }
+
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+  }
+
+  textarea {
+    width: 95%;
+  }
+
+  body {
+    background-size: 200%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    background-size: 300%;
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "formstorm",
+  "version": "0.0.1",
+  "description": "Web and slack application for filling out forms in Studs",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel app/react -d app/public/js/rendered-react/",
+    "build-dev": "babel --watch app/react -d app/public/js/rendered-react/",
+    "start": "node app/app.js"
+  },
+  "author": "Gustav Ekner",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-react": "^7.18.6",
+    "@slack/bolt": "^3.12.2",
+    "better-sqlite3": "^8.0.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.14.2",
+    "node-cron": "^3.0.2"
+  }
+}

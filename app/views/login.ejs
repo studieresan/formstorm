@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+  </head>
+  <body>
+    <div id="main">
+      <form method="POST" action="/login">
+        <fieldset>
+          <legend>Log in</legend>
+          <p><%= infoMsg %></p>
+          <input type="password" name="password" id="password" placeholder="Password">
+          <input type="submit" value="Log in">
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>

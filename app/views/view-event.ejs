@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>View event</title>
+    <link rel="stylesheet" type="text/css" href="/css/view-event.css">
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="main-left">
+        <h2><%= event.company_name %></h2>
+        <h4><%= event.date %></h4>
+
+        <p>
+          All answered: 
+          <% if (event.all_answered === 0) { %>
+            <img class="all-answered-symbol" src="/img/not-filled.png">
+          <% } else { %>
+            <img class="all-answered-symbol" src="/img/filled.png">
+          <% } %>
+        </p>
+
+        <!--<p>Pre-form: <%= formTypes.pre.name %></p>
+        <p>Post-form: <%= formTypes.post.name %></p>-->
+
+        <fieldset>
+          <legend>Update event</legend>
+          <form method="POST" action="/event/update">
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+
+            <label for="company_name">Name of company: </label>
+            <input type="text" name="company_name" id="company_name" value="<%= event.company_name %>">
+            <br>
+          
+            <label for="date">Date & time: </label>
+            <input type="datetime-local" id="date" name="date" value="<%= event.date %>">
+            <br>
+
+            <label for="remind">Auto remind: </label>
+            <input type="checkbox" id="remind" name="auto_remind" <%= event.auto_remind === 1 ? 'checked' : '' %>>
+            <br>
+            
+            <input type="submit" value="Update">
+          </form>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+          <legend>Export forms</legend>
+          <form method="POST" action="/event/export-forms">
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            <select name="prepost" id="prepost">
+              <option value="0">Pre</option>
+              <option value="1">Post</option>
+            </select>
+            <input type="submit" value="Export">
+          </form>
+        </fieldset>
+
+        <br>
+        <a href="/"><button>Return to home</button></a>
+      </div>
+
+      <div id="main-right">
+        <h3>Attendees</h3>
+        <table>
+          <tr>
+            <th title="Who's attending&#013;  Green: Studsare&#013;  Yellow: Substitute&#013;  Red: Nobody&#013;">
+              <span id="diamond"></span>
+            </th>
+            <th>Name</th>
+            <th>Substitute name</th>
+            <th>Pre filled</th>
+            <th>Post filled</th>
+            <th>Delete</th>
+          </tr>
+          <% attendees.forEach((attendee) => { %>
+            <tr>
+              <td class="attendee-status-<%= attendee.status %>"
+                  title="Who's attending&#013;  Green: Studsare&#013;  Yellow: Substitute&#013;  Red: Nobody&#013;">
+              </td>
+              <td class="<% if (attendee.status !== 0) { %> strike <% } %>">
+                <%= attendee.reg_name %>
+              </td>
+              <td><%= attendee.sub_name %></td>
+              <td>
+                <% if (attendee.has_filled_pre) { %>
+                  <img class="status-symbol" src="/img/filled.png">
+                <% } else { %>
+                  <img class="status-symbol" src="/img/not-filled.png">
+                <% } %>
+              </td>
+              <td>
+                <% if (attendee.has_filled_post) { %>
+                  <img class="status-symbol" src="/img/filled.png">
+                <% } else { %>
+                  <img class="status-symbol" src="/img/not-filled.png">
+                <% } %>
+              </td>
+              <td>
+                <% if (!attendee.has_filled_post) { %>
+                  <form action="/event/toggle-participate" method="POST">
+                    <input type="hidden" name="event_id" value="<%= event.event_id %>">
+                    <input type="hidden" name="slack_user_id" value="<%= attendee.slack_user_id %>">
+                    <input type="button" class="delete-button" value="✕">
+                  </form>
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </table>
+      </div>
+    </div>
+    <script>
+      document.querySelectorAll('.delete-button').forEach((btn) => {
+        btn.onclick = function(e) {
+          let res = confirm('Please confirm marking/un-marking user as Not Participating');
+          if (res === true) {
+            this.parentNode.submit();
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
