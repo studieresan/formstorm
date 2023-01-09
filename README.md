@@ -73,7 +73,7 @@ App Home -> Show Tabs. Make sure "Home Tab" and "Messages Tab" are active.
 |`EVENT_DURATION`|Event duration in hours. Before the event is over, users cannot answer the post forms.|
 |`UPLOAD_FOLDER`|When users export the forms in the web UI, they will be stored here. Specify an absolute path, e.g. "/home/it/form-storage" (and not a relative path that begins with "./").|
 
-You can find the slack tokens in the slack app configuration menus on api.slack.com. All IDs for the channels and the bot user can be found in the Slack app itself.
+You can find the slack tokens in the slack app configuration menus on api.slack.com. All IDs for the channels and the bot user can be found in the Slack workspace itself.
 
 ## Development
 
