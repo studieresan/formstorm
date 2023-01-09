@@ -81,6 +81,9 @@ module.exports.updateUserDB = async function() {
 module.exports.updateUserInDB = function(slackUser) {
   let user = db.getUserData(slackUser.id);
 
+  if (slackUser.real_name === undefined)
+    return;
+
   if (user === undefined) {
     util.log(`    Creating new user: ${slackUser.real_name}`);
     db.createUser(slackUser.id, slackUser.real_name);
