@@ -62,19 +62,33 @@ async function memberLeft(data) {
   await common.logAndNotifySubstituteRemoved(data.user, event, clearRes, attendee);
 }
 
-function getChannelIdFromCommandStr(str) {
-  let res = str.match(/^<#(.*)\|.*>$/);
+function getChannelIdFromCommandStr(command) {
+  let res = command.text.match(/^<#(.*)\|.*>$/);
   if (res && typeof res[1] !== 'undefined')
     return res[1];
   else
     return false;
 }
 
-function getSubstitutes(slackChannelId) {
-  let event = db.getEventBySlackChannelId(slackChannelId);
+// Returns undefined if no channel was found
+function getEvent(command) {
+  if (command.text.length > 0) {
+    // read channel from command text:
+    let channelId = getChannelIdFromCommandStr(command);
+    if (!channelId)
+      return undefined;
+    return db.getEventBySlackChannelId(channelId);
+  } else {
+    // base channel of the channel the command was sent from:
+    return db.getEventBySlackChannelId(command.channel_id);
+  }
+}
+
+function getSubstitutes(command) {
+  let event = getEvent(command);
   if (event === undefined)
     return 'No such event';
-
+    
   let subs = db.getSubstituteAttendeesByEventId(event.event_id);
   subs = subs.map((x) => x.real_name);
   if (subs.length > 0)
@@ -139,13 +153,8 @@ module.exports.memberLeft = async function({event, client}) {
 module.exports.subCommand = async ({ command, ack, respond }) => {
   try {
     await ack();
-    let channelId = getChannelIdFromCommandStr(command.text);
-    if (!channelId) {
-      await respond('No such event');
-    } else {
-      let str = getSubstitutes(channelId);   
-      await respond(str);
-    }
+    let str = getSubstitutes(command);
+    await respond(str);
   } catch (err) {
     util.err(err);
   }
