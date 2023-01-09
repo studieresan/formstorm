@@ -32,6 +32,12 @@ Now, go to the slack workspace and add the following channels:
 * An ask-event channel.
 * A project-group channel. Make it a private channel and add everybody in the project group to this channel **before creating the first event**. When everyone is added, restart the server.
 
+Finally, add these emojis:
+
+* :studs: (Displayed next to each company name on the forms page on slack)
+* :filled: (Indicating filled forms)
+* :not-filled: (Indicating not filled forms)
+
 ## Create slack app
 
 Go to api.slack.com -> Your Apps. Press "Create New App" and choose "From an app manifest". When prompted, paste the contents of `slack-manifest.yaml` into the text area. When the app has been created, go to the following menus:
