@@ -2,9 +2,16 @@
 
 Slack and web app for filling out event forms in Studs.
 
+Features:
+* Answer pre and post forms.
+* Get reminders.
+* Add subtitutes that receive the forms instead of the default member.
+* Web UI for managing events.
+* Slack integration.
+
 ## Usage
 
-You must have nodejs and npm installed. As SQLite is used as database, no SQL server setup is required. Instead, the whole DB is stored in a file.
+You must have nodejs and npm installed.
 
 1. Follow the Slack Workspace preparations (see below)
 2. Create the Slack app on api.slack.com (see below)
@@ -67,3 +74,20 @@ App Home -> Show Tabs. Make sure "Home Tab" and "Messages Tab" are active.
 |`UPLOAD_FOLDER`|When users export the forms in the web UI, they will be stored here. Specify an absolute path, e.g. "/home/it/form-storage" (and not a relative path that begins with "./").|
 
 You can find the slack tokens in the slack app configuration menus on api.slack.com. All IDs for the channels and the bot user can be found in the Slack app itself.
+
+## Development
+
+### Technologies
+
+* Written in JavaScript.
+* SQLite is used as database, no SQL server setup is required. Instead, the whole DB is stored in a file.
+* [Express](https://expressjs.com/) as web backend framework.
+* [ejs templates](https://ejs.co/) used for most part of the front-end.
+* React used for the form.
+* Slack Bolt. See documentation [here](https://slack.dev/bolt-js/concepts). Note: Socket Mode is used in this app.
+
+### React
+
+For the most part the server is just regular javascript, which means you don't have to build anything. However, the form page is written in React, and has to be built. The code is stored in /app/react.
+
+Build with `npm run build`. To build automatically during development, use `npm run build-dev`.
