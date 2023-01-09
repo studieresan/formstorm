@@ -95,7 +95,7 @@ module.exports.updateUserInDB = function(slackUser) {
 
 function genBlockEntry(slackUserId, attendee) {
   let event = db.getEvent(attendee.event_id);
-  let header = slackBlocks.header(event.company_name);
+  let header = slackBlocks.header(event);
 
   if (attendee.status === 2) {
     return [header, slackBlocks.notParticipating()];

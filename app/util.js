@@ -92,9 +92,9 @@ module.exports.generateInternalId = async function() {
   });
 };
 
-module.exports.convertToStringDate = function(events) {
+module.exports.convertToStringDate = function(events, locale='sv-SE', options={}) {
   for (let i = 0; i < events.length; i++) {
-    events[i].date = new Date(events[i].date * 1000).toLocaleString('sv-SE');
+    events[i].date = new Date(events[i].date * 1000).toLocaleString(locale, options);
   }
 };
 
