@@ -59,7 +59,7 @@ module.exports.getNonPostAnsweredAttendees = function(eventId) {
 };
 
 module.exports.getAllAttendeesBySlackUserId = function(slackUserId) {
-  let stmt = db.prepare('SELECT * FROM attendees WHERE slack_user_id=? OR substitute_slack_id=?');
+  let stmt = db.prepare('SELECT * FROM attendees WHERE slack_user_id=? OR (substitute_slack_id=? AND status=1)');
   return stmt.all(slackUserId, slackUserId);
 };
 
