@@ -31,7 +31,7 @@ const slackMsgFuncs = {
       `and their pre form answer has been deleted.`;
   },
   firstEventMessage: function() {
-    return `I see this is your first event as substitute 2023, congratulations! Remember to fill the forms, you can find them by clicking the Home tab above. Also, take a look in <#${process.env.GENERAL_CHANNEL}> for some general event information.`;
+    return `I see this is your first event as substitute 2023, congratulations! Remember: you can find the forms by clicking the Home tab above. Also, take a look in <#${process.env.GENERAL_CHANNEL}> for some important general event information.`;
   },
   firstSlackJoinMessage: function() {
     return `Welcome to the Studs 2023 Event Slack! I'm making sure you're filling out the pre and post event forms, which should be done before and after each event. You can find them by clicking the Home tab above, and if you forget I will send reminders. For information about the events, take a look in <#${process.env.GENERAL_CHANNEL}>.\n\nIf you have any general questions, please provide it in <#${process.env.ASK_EVENT_CHANNEL_ID}>.\nIf you have any questions, bug reports or feedback regarding this automated form system, please provide it in <#${process.env.ASK_IT_CHANNEL_ID}>.`;
