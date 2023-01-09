@@ -128,6 +128,7 @@ function genBlockEntry(slackUserId, attendee) {
 
 module.exports.updateAppHome = async function(slackUserId) {
   let attendees = db.getAllAttendeesBySlackUserId(slackUserId);
+  attendees.reverse(); // the latest added event should be on top
   let blocks = [];
 
   for (let i = 0; i < attendees.length; i++) {
