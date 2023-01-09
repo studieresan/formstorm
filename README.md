@@ -13,7 +13,8 @@ You must have nodejs and npm installed. As SQLite is used as database, no SQL se
 5. `cp .env.example .env`
 6. Configure the options in `.env` (see below)
 7. `node create_db.js`
-8. `npm start`
+8. `npm run build`
+9. `npm start`
 
 If you need to reset the whole DB, simply stop the server, delete the files that are called db.sqlite3*, re-run create_db.js and start the server again.
 
