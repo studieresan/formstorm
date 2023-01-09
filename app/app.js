@@ -64,12 +64,15 @@ webApp.locals.getp = function(obj, prop, def) {
 
 async function loadProjectGroup() {
   db.clearProjectGroup();
-  let res = await slackService.app().client.conversations.members({channel: process.env.PROJECT_GROUP_CHANNEL_ID});
+  let res = await slackService.getProjectGroup();
+  let counter = 0;
   res.members.forEach((slackUserId) => {
-    if (slackUserId !== process.env.BOT_MEMBER_ID)
+    if (!process.env.EXCLUDE_IDS.split(',').includes(slackUserId)) {
+      counter++;
       db.addToProjectGroup(slackUserId);
+    }
   });
-  util.log(`Project group consisting of ${res.members.length} members.`);
+  util.log(`Project group consisting of ${counter} members.`);
 }
 
 (async () => {
