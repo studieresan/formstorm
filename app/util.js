@@ -105,3 +105,7 @@ module.exports.blockUnauthorized = function(req, res, next) {
     next();
   }
 };
+
+module.exports.getFormUrl = function(internalId, prepost) {
+  return new URL(`form?internal_id=${internalId}&prepost=${prepost}`, process.env.URL).href;
+};

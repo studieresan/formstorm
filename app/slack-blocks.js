@@ -1,3 +1,5 @@
+const util = require('./util');
+
 module.exports.header = function(companyName) {
   return {
     "type": "section",
@@ -44,7 +46,7 @@ module.exports.preNotFilled = function(internalId) {
   return {
     'type': 'section',
     'text': {
-      'text': `\`Pre form: \`  :not-filled:  <${process.env.URL}/form?internal_id=${internalId}&prepost=0|Link to form>`,
+      'text': `\`Pre form: \`  :not-filled:  <${util.getFormUrl(internalId, 0)}|Link to form>`,
       'type': 'mrkdwn'
     }
   };
@@ -64,7 +66,7 @@ module.exports.postNotFilled = function(internalId) {
   return {
     'type': 'section',
     'text': {
-      'text': `\`Post form:\`  :not-filled:  <${process.env.URL}/form?internal_id=${internalId}&prepost=1|Link to form>`,
+      'text': `\`Post form:\`  :not-filled:  <${util.getFormUrl(internalId, 1)}|Link to form>`,
       'type': 'mrkdwn'
     }
   };
