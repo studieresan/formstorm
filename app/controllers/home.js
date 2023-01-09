@@ -6,8 +6,12 @@ function getSubstitutes() {
 
   // Filter out Slackbot and the event bot:
   substitutes = substitutes.filter((x) => {
-    return (x.real_name.toLowerCase() !== 'slackbot') &&
-      (x.slack_user_id !== process.env.BOT_MEMBER_ID);
+    if (x.real_name.toLowerCase() === 'slackbot')
+      return false;
+    if (process.env.EXCLUDE_IDS.split(',').includes(x.slack_user_id))
+      return false;
+    
+    return true;
   });
 
   // Sort:
