@@ -1,11 +1,12 @@
 const util = require('./util');
 
 module.exports.header = function(event) {
-  util.convertToStringDate([event], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
+  let dateEventObj = {date: event.date}; // copy the date value to new object
+  util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
   return {
     "type": "section",
     "text": {
-      "text": `:studs:  *${event.company_name}*  ${event.date}`,
+      "text": `:studs:  *${event.company_name}*  ${dateEventObj.date}`,
       "type": "mrkdwn"
     }
   };
