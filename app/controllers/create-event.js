@@ -31,7 +31,7 @@ async function createEventDB(data, projectGroup) {
 
 async function addProjectGroupToChannel(projectGroup, channelId) {
   projectGroup = projectGroup.map((x) => x.slack_user_id);
-  return slack.inviteToChannel(usersExceptBot.join(), channelId);
+  return slack.inviteToChannel(projectGroup.join(), channelId);
 }
 
 module.exports.createEventGet = function(req, res) {  
