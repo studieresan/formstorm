@@ -4,7 +4,8 @@ const slack = require('./services/slack');
 const util = require('./util');
 const common = require('./controllers/common');
 
-const remindThreshold = 8;
+// Events starting within this many hours should be reminded about:
+const remindThreshold = 22;
 
 class ReminderSender {
   persons = {};
@@ -70,14 +71,14 @@ function remindAttendee(reminderSender, slackUserId, attendee, event) {
     reminderSender.addEntry(slackUserId, event.company_name, 1);
 }
 
-// 16.00 each day
-cron.schedule('0 16 * * *', () => {
+// 15.00 each day
+cron.schedule('0 15 * * *', () => {
   let stat = sendFormReminders();
   util.log(`Reminders have been sent to ${stat.persons} persons concerning ${stat.forms} forms.`);
 });
 
 // 09.00 each day
-cron.schedule('0 8 * * *', async () => {
+cron.schedule('0 9 * * *', async () => {
   util.log('Updating user db...');
   await common.updateUserDB();
 });
