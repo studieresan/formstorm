@@ -65,9 +65,9 @@ App Home -> Show Tabs. Make sure "Home Tab" and "Messages Tab" are active.
 |`SLACK_BOT_TOKEN`|The Bot User OAuth Token, should begin with `xoxb-`|
 |`SLACK_APP_TOKEN`|The App-Level Token, should begin with `xapp-`|
 |`PROJECT_GROUP_CHANNEL_ID`|ID of channel that contains the Studs project group, e.g. `C04BF4L46F9` and NOT e.g. `#project-group`|
-|`GENERAL_CHANNEL`|ID of general channel.|
-|`ASK_IT_CHANNEL_ID`|ID of channel for asking questions to the IT group.|
-|`ASK_EVENT_CHANNEL_ID`|ID of channel for asking general questions about the events.|
+|`GENERAL_CHANNEL_ID`|ID of general channel.|
+|`REACTION_CHANNEL_ID`|ID of channel for reacting to events substitutes are interested in.|
+|`SUPPORT_CHANNEL_ID`|ID of channel for asking questions about the events or the IT system.|
 |`EXCLUDE_IDS`|IDs of slack users that shouldn't participate in the system. It's strongly recommended to add the slack id of the bot here.|
 |`URL`|The base url for the web interface. E.g. "https://event.studs.se" or "http://localhost".|
 |`EVENT_DURATION`|Event duration in hours. Before the event is over, users cannot answer the post forms.|

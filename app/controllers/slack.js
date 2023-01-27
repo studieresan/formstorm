@@ -109,7 +109,7 @@ module.exports.teamJoin = async function({event, client}) {
   try {
     util.log('New user joined, adding to db...');
     common.updateUserInDB(event.user);
-    await sendFirstJoin(event.user);
+    await sendFirstJoin(event.user.id);
     util.log('Done.');
   } catch (err) {
     util.err(err);

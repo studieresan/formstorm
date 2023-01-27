@@ -31,10 +31,10 @@ const slackMsgFuncs = {
       `and their pre form answer has been deleted.`;
   },
   firstEventMessage: function() {
-    return `I see this is your first event as substitute 2023, congratulations! Remember: you can find the forms by clicking the Home tab above. Also, take a look in <#${process.env.GENERAL_CHANNEL}> for some important general event information.`;
+    return `I see this is your first event as substitute 2023, congratulations! Remember: you can find the forms by clicking the Home tab above. Also, take a look in <#${process.env.GENERAL_CHANNEL_ID}> for some important general event information.`;
   },
   firstSlackJoinMessage: function() {
-    return `Welcome to the Studs 2023 Event Slack! I'm making sure you're filling out the pre and post event forms, which should be done before and after each event. You can find them by clicking the Home tab above, and if you forget I will send reminders. For information about the events, take a look in <#${process.env.GENERAL_CHANNEL}>.\n\nIf you have any general questions, please provide it in <#${process.env.ASK_EVENT_CHANNEL_ID}>.\nIf you have any questions, bug reports or feedback regarding this automated form system, please provide it in <#${process.env.ASK_IT_CHANNEL_ID}>.`;
+    return `Welcome to the Studs 2023 Event Slack! I'm making sure you're filling out the pre and post event forms, which should be done before and after each event. You can find them by clicking the Home tab above.\n\n* Please log in to this workspace on your phone and enable *notifications* for DMs, so that you don't miss substitute requests and form reminders.\n\n* Give reactions to the events you are/not are interested in attending in <#${process.env.REACTION_CHANNEL_ID}>!\n\n* Please take a look in <#${process.env.GENERAL_CHANNEL_ID}> for some important information about the events.\n\n* If you have any questions, e.g. about events or a question/bug report about this automated form system, please provide it in <#${process.env.SUPPORT_CHANNEL_ID}>.`;
   },
   checkNamesMessage: function() {
     return 'Please set your *Full name* in your profile properly! (first name and last name)';
