@@ -68,7 +68,7 @@ App Home -> Show Tabs. Make sure "Home Tab" and "Messages Tab" are active.
 |`GENERAL_CHANNEL_ID`|ID of general channel.|
 |`REACTION_CHANNEL_ID`|ID of channel for reacting to events substitutes are interested in.|
 |`SUPPORT_CHANNEL_ID`|ID of channel for asking questions about the events or the IT system.|
-|`EXCLUDE_IDS`|IDs of slack users that shouldn't participate in the system. It's strongly recommended to add the slack id of the bot here.|
+|`EXCLUDE_IDS`|IDs of slack users that shouldn't participate in the system. It's strongly recommended to add the slack id of the bot here. Separate multiple IDs with comma, no whitespace.|
 |`URL`|The base url for the web interface. E.g. "https://event.studs.se" or "http://localhost".|
 |`EVENT_DURATION`|Event duration in hours. Before the event is over, users cannot answer the post forms.|
 |`UPLOAD_FOLDER`|When users export the forms in the web UI, they will be stored here. Specify an absolute path, e.g. "/home/it/form-storage" (and not a relative path that begins with "./").|
