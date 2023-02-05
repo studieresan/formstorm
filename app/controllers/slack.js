@@ -159,3 +159,12 @@ module.exports.subCommand = async ({ command, ack, respond }) => {
     util.err(err);
   }
 };
+
+module.exports.refreshAppHome = async function ({body, ack}) {
+  try {
+    await ack();
+    await common.updateAppHome(body.user.id);
+  } catch (err) {
+    util.err(err);
+  }
+};

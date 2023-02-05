@@ -1,5 +1,22 @@
 const util = require('./util');
 
+module.exports.topBlock = function() {
+  return {
+    'type': 'actions',
+    'elements': [
+      {
+        'type': 'button',
+        'text': {
+          'type': 'plain_text',
+          'text': 'Refresh'
+        },
+        'style': 'primary',
+        'action_id': 'refresh',
+      }
+    ]
+  };
+};
+
 module.exports.header = function(event) {
   let dateEventObj = {date: event.date}; // copy the date value to new object
   util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});

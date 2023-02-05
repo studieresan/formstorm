@@ -18,3 +18,5 @@ slackApp.event('member_joined_channel', controller.memberJoined);
 slackApp.event('member_left_channel', controller.memberLeft);
 
 slackApp.command('/sub', controller.subCommand);
+
+slackApp.action('refresh', controller.refreshAppHome);
