@@ -26,6 +26,10 @@ function createSchema() {
       internal_id          TEXT
     );
 
+    CREATE TABLE admins (
+      slack_user_id  TEXT PRIMARY KEY
+    );
+
     CREATE TABLE company_events (
       event_id        INTEGER PRIMARY KEY,
       channel_id      TEXT,

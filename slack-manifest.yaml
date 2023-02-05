@@ -15,6 +15,10 @@ features:
       description: List substitutes for event
       usage_hint: "#event-channel"
       should_escape: true
+    - command: /admin
+      description: Permanently gain access to admin pages
+      usage_hint: password
+      should_escape: false
 oauth_config:
   scopes:
     bot:
@@ -42,4 +46,3 @@ settings:
   org_deploy_enabled: false
   socket_mode_enabled: true
   token_rotation_enabled: false
-

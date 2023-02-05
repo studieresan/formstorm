@@ -1,19 +1,33 @@
 const util = require('./util');
 
-module.exports.topBlock = function() {
+module.exports.topBlock = function(isAdmin) {
+  let actionsElements = [
+    {
+      'type': 'button',
+      'text': {
+        'type': 'plain_text',
+        'text': 'Refresh'
+      },
+      'style': 'primary',
+      'action_id': 'refresh',
+    }
+  ];
+
+  if (isAdmin) {
+    actionsElements.push({
+      'type': 'button',
+      'text': {
+        'type': 'plain_text',
+        'text': 'Open admin pages'
+      },
+      'action_id': 'admin',
+      'url': new URL(`login-with-token?token=${util.loginToken}`, process.env.URL).href
+    });
+  }
+
   return {
     'type': 'actions',
-    'elements': [
-      {
-        'type': 'button',
-        'text': {
-          'type': 'plain_text',
-          'text': 'Refresh'
-        },
-        'style': 'primary',
-        'action_id': 'refresh',
-      }
-    ]
+    'elements': actionsElements
   };
 };
 

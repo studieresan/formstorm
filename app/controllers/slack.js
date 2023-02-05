@@ -101,6 +101,15 @@ async function sendFirstJoin(slackUserId) {
   return slack.sendMessage(slackUserId, common.slackMsgFuncs.firstSlackJoinMessage());
 }
 
+function checkAddAdmin(command) {
+  if (command.text === process.env.PASSWORD) {
+    db.addAdmin(command.user_id);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /* ---------------- */
 /*      ROUTES      */
 /* ---------------- */
@@ -160,10 +169,31 @@ module.exports.subCommand = async function ({command, ack, respond}) {
   }
 };
 
+module.exports.adminCommand = async function ({command, ack, respond}) {
+  try {
+    await ack();
+    let res = checkAddAdmin(command);
+    if (res)
+      await respond('You now have access to the admin pages via the forms menu in Slack.');
+    else
+      await respond('Incorrect password.');
+  } catch (err) {
+    util.err(err);
+  }
+};
+
 module.exports.refreshAppHome = async function ({body, ack}) {
   try {
     await ack();
     await common.updateAppHome(body.user.id);
+  } catch (err) {
+    util.err(err);
+  }
+};
+
+module.exports.openAdminPages = async function ({ack}) {
+  try {
+    await ack();
   } catch (err) {
     util.err(err);
   }

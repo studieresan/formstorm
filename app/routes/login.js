@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator');
+const { body, query } = require('express-validator');
 const controller = require('../controllers/login');
 
 const router = express.Router();
@@ -10,7 +10,12 @@ router.get('/logout', controller.logout);
 
 router.post('/login',
   body('password').not().isEmpty(),
-  controller.loginPost
+  controller.performLoginPost
+);
+
+router.get('/login-with-token',
+  query('token').not().isEmpty(),
+  controller.performLoginGet
 );
 
 module.exports = router;

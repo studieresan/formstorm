@@ -111,6 +111,16 @@ module.exports.createAttendee = function(eventId, slackId, id) {
   stmt.run(eventId, slackId, id);
 };
 
+module.exports.addAdmin = function(slackUserId) {
+  let stmt = db.prepare('INSERT OR IGNORE INTO admins (slack_user_id) VALUES (?)');
+  stmt.run(slackUserId);
+};
+
+module.exports.getAdmin = function(slackUserId) {
+  let stmt = db.prepare('SELECT * FROM admins WHERE slack_user_id=?');
+  return stmt.get(slackUserId);
+};
+
 module.exports.getEvent = function(eventId) {
   let stmt = db.prepare('SELECT * FROM company_events WHERE event_id=?');
   return stmt.get(eventId);

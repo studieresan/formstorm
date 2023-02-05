@@ -129,11 +129,16 @@ function genBlockEntry(slackUserId, attendee) {
   return [header, pre, post];
 }
 
+function getIsAdmin(slackUserId) {
+  return db.getAdmin(slackUserId) !== undefined;
+}
+
 module.exports.updateAppHome = async function(slackUserId) {
   let attendees = db.getAllAttendeesBySlackUserId(slackUserId);
+  let isAdmin = getIsAdmin(slackUserId);
   attendees.reverse(); // the latest added event should be on top
   let blocks = [
-    slackBlocks.topBlock(),
+    slackBlocks.topBlock(isAdmin),
     { type: 'divider' }
   ];
 

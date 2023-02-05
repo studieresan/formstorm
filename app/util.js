@@ -109,3 +109,6 @@ module.exports.blockUnauthorized = function(req, res, next) {
 module.exports.getFormUrl = function(internalId, prepost) {
   return new URL(`form?internal_id=${internalId}&prepost=${prepost}`, process.env.URL).href;
 };
+
+// Used when logging in to the admin pages via slack if the user is an admin:
+module.exports.loginToken = crypto.randomBytes(15).toString('hex');

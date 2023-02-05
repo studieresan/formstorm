@@ -19,4 +19,8 @@ slackApp.event('member_left_channel', controller.memberLeft);
 
 slackApp.command('/sub', controller.subCommand);
 
+slackApp.command('/admin', controller.adminCommand);
+
 slackApp.action('refresh', controller.refreshAppHome);
+
+slackApp.action('admin', controller.openAdminPages);
