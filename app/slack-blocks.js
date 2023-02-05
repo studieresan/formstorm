@@ -21,20 +21,20 @@ module.exports.header = function(event) {
   let dateEventObj = {date: event.date}; // copy the date value to new object
   util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
   return {
-    "type": "section",
-    "text": {
-      "text": `:studs:  *${event.company_name}*  ${dateEventObj.date}`,
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': `:studs:  *${event.company_name}*  ${dateEventObj.date}`,
+      'type': 'mrkdwn'
     }
   };
 };
 
 module.exports.notParticipating = function() {
   return {
-    "type": "section",
-    "text": {
-      "text": `Not participating`,
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': 'Not participating',
+      'type': 'mrkdwn'
     }
   };
 };
@@ -53,10 +53,10 @@ module.exports.substitute = function(name, attendee) {
 
 module.exports.preFilled = function() {
   return {
-    "type": "section",
-    "text": {
-      "text": "`Pre form: `  :filled:",
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': '`Pre form: `  :filled:',
+      'type': 'mrkdwn'
     }
   };
 };
@@ -73,10 +73,10 @@ module.exports.preNotFilled = function(internalId) {
 
 module.exports.postFilled = function() {
   return {
-    "type": "section",
-    "text": {
-      "text": "`Post form:`  :filled:",
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': '`Post form:`  :filled:',
+      'type': 'mrkdwn'
     }
   };
 };
@@ -93,20 +93,20 @@ module.exports.postNotFilled = function(internalId) {
 
 module.exports.postNotFilledPending = function() {
   return {
-    "type": "section",
-    "text": {
-      "text": "`Post form:`  :not-filled:  Pending...",
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': '`Post form:`  :not-filled:  Pending...',
+      'type': 'mrkdwn'
     }
   };
 };
 
 module.exports.postNotFilledPreNotFilled = function() {
   return {
-    "type": "section",
-    "text": {
-      "text": "`Post form:`  :not-filled:  You must fill the pre form first",
-      "type": "mrkdwn"
+    'type': 'section',
+    'text': {
+      'text': '`Post form:`  :not-filled:  You must fill the pre form first',
+      'type': 'mrkdwn'
     }
   };
 };

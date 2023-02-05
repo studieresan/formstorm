@@ -105,7 +105,7 @@ async function sendFirstJoin(slackUserId) {
 /*      ROUTES      */
 /* ---------------- */
 
-module.exports.teamJoin = async function({event, client}) {
+module.exports.teamJoin = async function({event}) {
   try {
     util.log('New user joined, adding to db...');
     common.updateUserInDB(event.user);
@@ -116,7 +116,7 @@ module.exports.teamJoin = async function({event, client}) {
   }
 };
 
-module.exports.userProfileChanged = async function({event, client}) {
+module.exports.userProfileChanged = async function({event}) {
   try {
     util.log('User profile updated, updating DB...');
     common.updateUserInDB(event.user);
@@ -126,7 +126,7 @@ module.exports.userProfileChanged = async function({event, client}) {
   }
 };
 
-module.exports.appHomeOpened = async function({event, client}) {
+module.exports.appHomeOpened = async function({event}) {
   try {
     await common.updateAppHome(event.user);
   } catch (err) {
@@ -134,7 +134,7 @@ module.exports.appHomeOpened = async function({event, client}) {
   }
 };
 
-module.exports.memberJoined = async function({event, client}) {
+module.exports.memberJoined = async function({event}) {
   try {
     await memberJoined(event);
   } catch (err) {
@@ -142,7 +142,7 @@ module.exports.memberJoined = async function({event, client}) {
   }
 };
 
-module.exports.memberLeft = async function({event, client}) {
+module.exports.memberLeft = async function({event}) {
   try {
     await memberLeft(event);
   } catch (err) {
@@ -150,7 +150,7 @@ module.exports.memberLeft = async function({event, client}) {
   }
 };
 
-module.exports.subCommand = async ({ command, ack, respond }) => {
+module.exports.subCommand = async function ({command, ack, respond}) {
   try {
     await ack();
     let str = getSubstitutes(command);
