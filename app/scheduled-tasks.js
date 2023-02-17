@@ -5,7 +5,7 @@ const util = require('./util');
 const common = require('./controllers/common');
 
 // Events starting within this many hours should be reminded about:
-const remindThreshold = 22;
+const remindThreshold = 32;
 
 class ReminderSender {
   persons = {};
