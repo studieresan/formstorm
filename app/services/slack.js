@@ -36,8 +36,24 @@ module.exports.inviteToChannel = async function(users, channel) {
   return slackApp.client.conversations.invite({users: users, channel: channel});
 };
 
+module.exports.getChannelMembers = async function(channel) {
+  return slackApp.client.conversations.members({channel: channel});
+};
+
 module.exports.publishView = async function(slackUserId, view) {
   return slackApp.client.views.publish({user_id: slackUserId, view: view});
+};
+
+module.exports.getReactions = async function(channel, timestamp) {
+  return slackApp.client.reactions.get({channel: channel, timestamp: timestamp});
+};
+
+module.exports.getBotChannels = async function() {
+  return slackApp.client.users.conversations({types: 'public_channel, private_channel'});
+};
+
+module.exports.getPermalink = async function(channel, timestamp) {
+  return slackApp.client.chat.getPermalink({channel: channel, message_ts: timestamp});
 };
 
 // Used for sending both to regular channels and DM:s

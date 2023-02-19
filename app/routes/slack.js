@@ -1,4 +1,5 @@
 const controller = require('../controllers/slack');
+const reactionController = require('../controllers/slack-reaction');
 const slackApp = require('../services/slack').app();
 
 slackApp.message('hello', async ({ message, say }) => {
@@ -20,6 +21,10 @@ slackApp.event('member_left_channel', controller.memberLeft);
 slackApp.command('/sub', controller.subCommand);
 
 slackApp.command('/admin', controller.adminCommand);
+
+slackApp.shortcut('remind_dm', reactionController.remindDmShortcut);
+
+slackApp.shortcut('list_not_reacted', reactionController.listNotReactedShortcut);
 
 slackApp.action('refresh', controller.refreshAppHome);
 
