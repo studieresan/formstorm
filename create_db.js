@@ -31,15 +31,17 @@ function createSchema() {
     );
 
     CREATE TABLE company_events (
-      event_id        INTEGER PRIMARY KEY,
-      channel_id      TEXT,
-      date            INTEGER,
-      company_name    TEXT,
-      description     TEXT,
-      pre_form        INTEGER,
-      post_form       INTEGER,
-      all_answered    INTEGER,
-      auto_remind     INTEGER
+      event_id          INTEGER PRIMARY KEY,
+      channel_id        TEXT,
+      date              INTEGER,
+      company_name      TEXT,
+      description       TEXT,
+      pre_form          INTEGER,
+      post_form         INTEGER,
+      all_answered      INTEGER,
+      auto_remind       INTEGER,
+      last_remind_time  INTEGER,
+      no_last_reminded  INTEGER
     );
 
     CREATE TABLE form_questions (

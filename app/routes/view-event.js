@@ -29,4 +29,14 @@ router.post('/toggle-participate',
   controller.toggleParticipate
 );
 
+router.post('/toggle-auto-remind',
+  body('event_id').not().isEmpty().toInt(),
+  controller.toggleAutoRemind
+);
+
+router.post('/remind-now',
+  body('event_id').not().isEmpty().toInt(),
+  controller.remindNow
+);
+
 module.exports = router;

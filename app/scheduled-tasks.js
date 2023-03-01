@@ -82,3 +82,18 @@ cron.schedule('0 9 * * *', async () => {
   util.log('Updating user db...');
   await common.updateUserDB();
 });
+
+// Send reminders for individual event:
+module.exports.remindIndividualEvent = function(event) {
+  let reminderSender = new ReminderSender();
+  attendees = db.getAttendeesByEventId(event.event_id);
+  attendees.self.forEach((attendee) => {
+    remindAttendee(reminderSender, attendee.slack_user_id, attendee, event);
+  });
+  attendees.sub.forEach((attendee) => {
+    remindAttendee(reminderSender, attendee.substitute_slack_id, attendee, event);
+  });
+  let stat = reminderSender.sendToAll();
+  let d = Math.floor((new Date()) / 1000);
+  db.updateLastRemind(event.event_id, d, stat.persons);
+};

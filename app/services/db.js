@@ -159,9 +159,19 @@ module.exports.setAllAnswered = function(eventId) {
   stmt.run(eventId);
 };
 
-module.exports.updateEvent = function(eventId, companyName, date, autoRemind) {
-  let stmt = db.prepare('UPDATE company_events SET company_name=?, date=?, auto_remind=? WHERE event_id=?');
-  stmt.run(companyName, date, autoRemind, eventId);
+module.exports.updateEvent = function(eventId, companyName, date) {
+  let stmt = db.prepare('UPDATE company_events SET company_name=?, date=? WHERE event_id=?');
+  stmt.run(companyName, date, eventId);
+};
+
+module.exports.updateAutoRemind = function(eventId, newRemind) {
+  let stmt = db.prepare('UPDATE company_events SET auto_remind=? WHERE event_id=?');
+  stmt.run(newRemind, eventId);
+};
+
+module.exports.updateLastRemind = function(eventId, remindTime, noPersons) {
+  let stmt = db.prepare('UPDATE company_events SET last_remind_time=?, no_last_reminded=? WHERE event_id=?');
+  stmt.run(remindTime, noPersons, eventId);
 };
 
 module.exports.getFormQuestions = function(formTypeId) {

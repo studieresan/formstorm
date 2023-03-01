@@ -36,12 +36,36 @@
             <label for="date">Date & time: </label>
             <input type="datetime-local" id="date" name="date" value="<%= event.date %>">
             <br>
-
-            <label for="remind">Auto remind: </label>
-            <input type="checkbox" id="remind" name="auto_remind" <%= event.auto_remind === 1 ? 'checked' : '' %>>
-            <br>
             
             <input type="submit" value="Update">
+          </form>
+        </fieldset>
+
+        <br>
+
+        <fieldset>
+          <legend>Reminders</legend>
+
+          <label for="remind">Auto remind: </label>
+          <% if (event.auto_remind === 0) { %>
+            <img id="remind" class="all-answered-symbol" src="/img/not-filled.png">
+          <% } else { %>
+            <img id="remind" class="all-answered-symbol" src="/img/filled.png">
+          <% } %>
+          <br>
+
+          <label for="last_sent">Last reminder: </label>
+          <input class="last-reminder" readonly type="text" id="last_sent" value="<%= event.last_sent %>">
+          <br>
+
+          <form method="POST" action="/event/toggle-auto-remind">
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            <input type="submit" value="Toggle auto remind">
+          </form>
+
+          <form method="POST" action="/event/remind-now">
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            <input type="submit" value="Send reminders now">
           </form>
         </fieldset>
 
