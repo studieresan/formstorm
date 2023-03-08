@@ -159,3 +159,60 @@ textarea {
     background-size: 300%;
   }
 }
+
+/*
+### EditForm ###
+*/
+
+.edit-radio-box-header, .edit-range-header, .edit-text-input-header, .edit-text-input-small {
+  width: 100%;
+  background-color: white;
+  color: black;
+}
+
+.edit-radio-box-alternative {
+  width: 50%;
+}
+
+.edit-range-range {
+  margin-left: 10px;
+  width: 70px;
+}
+
+.edit-legend-mandatory-checkbox:checked {
+  accent-color: red;
+}
+
+.edit-add-question {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 28px;
+}
+
+.edit-q-container {
+  position: relative;
+}
+
+.edit-right-buttons {
+  position: absolute;
+  left: 910px;
+  top: 70px;
+  right: 0;
+}
+
+.edit-question-up, .edit-question-down, .edit-question-delete {
+  display: block;
+  font-size: 20px;
+  width: 40px;
+  margin-bottom: 5px;
+}
+
+.edit-cancel-save {
+  text-align: center;
+}
+
+.edit-cancel-save input {
+  font-size: 20px;
+  margin-left: 10px;
+}

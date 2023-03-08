@@ -14,12 +14,16 @@
 
       import {FormWrapperFill} from '/js/rendered-react/FillForm.js';
       import {FormWrapperPreview} from '/js/rendered-react/PreviewForm.js';
+      import {FormWrapperEdit} from '/js/rendered-react/EditForm.js';
 
       const urlParams = new URLSearchParams(window.location.search);
       const domContainer = document.querySelector('#react-container');
       const root = ReactDOM.createRoot(domContainer);
 
-      if (urlParams.has('form_type_id')) {
+      if (urlParams.has('form_type_id') && urlParams.has('edit')) {
+        let form_type_id = urlParams.get('form_type_id');
+        root.render(React.createElement(FormWrapperEdit, {form_type_id}));
+      } else if (urlParams.has('form_type_id')) {
         let form_type_id = urlParams.get('form_type_id');
         root.render(React.createElement(FormWrapperPreview, {form_type_id}));
       } else if (urlParams.has('internal_id') && urlParams.has('prepost')) {

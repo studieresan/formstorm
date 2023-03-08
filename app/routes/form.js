@@ -25,4 +25,10 @@ router.post('/api/form/submit-form',
   controller.apiSubmitForm  
 );
 
+router.post('/api/form/submit-questions',
+  body('form_type_id').not().isEmpty(),
+  body('data').not().isEmpty(),
+  controller.apiChangeQuestions
+);
+
 module.exports = router;

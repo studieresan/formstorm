@@ -1,4 +1,5 @@
-import {Form, getFetchErr} from '/js/rendered-react/Form.js';
+import {Form} from '/js/rendered-react/Form.js';
+import {getFetchErr} from '/js/rendered-react/common.js';
 
 const { useState, useEffect } = React;
 

@@ -2,6 +2,7 @@ const db = require('../services/db');
 const util = require('../util');
 const path = require('path');
 const common = require('./common');
+const formValidator = require('../form-question-validation');
 
 const minAnsLengthMandatoryQuestion = 5;
 
@@ -184,6 +185,21 @@ module.exports.apiSubmitForm = async function(req, res) {
     await updateHomeAfterFormSubmit(attendee);
     await common.allAnsweredCheck(attendee.event_id);
     res.send("Success");
+  } catch (err) {
+    util.sendErr(res, err);
+  }
+};
+
+module.exports.apiChangeQuestions = async function(req, res) {
+  try {
+    util.checkValidation(req);
+    if (!util.checkLoggedIn(req)) {
+      util.sendErr(res, new util.InternalError(400, 'You are not logged in'));
+    } else {
+      formValidator.validateForm(req.body.data);
+      db.replaceFormQuestions(req.body.form_type_id, req.body.data);
+      res.send("Success");
+    }
   } catch (err) {
     util.sendErr(res, err);
   }

@@ -98,8 +98,12 @@ module.exports.convertToStringDate = function(events, locale='sv-SE', options={}
   }
 };
 
+module.exports.checkLoggedIn = function(req) {
+  return process.env.PASSWORD === '' || req.session.loggedIn === true;
+};
+
 module.exports.blockUnauthorized = function(req, res, next) {
-  if (process.env.PASSWORD !== '' && req.session.loggedIn !== true) {
+  if (!module.exports.checkLoggedIn(req)) {
     res.status(401).send('Unauthorized');
   } else {
     next();

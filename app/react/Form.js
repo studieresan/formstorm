@@ -1,3 +1,5 @@
+import {getFetchErr} from '/js/rendered-react/common.js';
+
 const { useState, useEffect } = React;
 
 Array.prototype.replaceElem = function(index, newElem) {
@@ -8,23 +10,6 @@ Array.prototype.replaceElem = function(index, newElem) {
       return elem;
   });
 };
-
-export function getFetchErr(dataType) {
-  return async function(resp) {
-    if (resp.ok) {
-      if (dataType === 'json')
-        return resp.json();
-      else
-        return resp.text(); 
-    } else {
-      let res = await resp.text();
-      if (res === undefined || res === null || res === '')
-        return Promise.reject(resp.statusText);  
-      else
-        return Promise.reject('Error: ' + res);
-    }
-  }
-}
 
 function Legend(props) {
   let mandatory = props.question.mandatory === 1 ?
@@ -39,7 +24,7 @@ function Legend(props) {
 }
 
 function TextInputFormElem(props) {
-  const q = JSON.parse(props.question.value);
+  const q = props.question.value;
   const largeText = q.question;
   const smallText = q.small_text;
 
@@ -64,7 +49,7 @@ function RadioBoxElem(props) {
 }
 
 function RadioBoxesFormElem(props) {
-  const q = JSON.parse(props.question.value);
+  const q = props.question.value;
   const question = q.question;
   const alternatives = q.alternatives;
 
@@ -93,7 +78,7 @@ function RangeBoxElem(props) {
 }
 
 function RangeFormElem(props) {
-  const q = JSON.parse(props.question.value);
+  const q = props.question.value;
   const question = q.question;
   const alt1 = q.left;
   const alt2 = q.right;

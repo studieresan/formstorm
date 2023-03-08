@@ -176,12 +176,31 @@ module.exports.updateLastRemind = function(eventId, remindTime, noPersons) {
 
 module.exports.getFormQuestions = function(formTypeId) {
   let stmt = db.prepare('SELECT * FROM form_questions WHERE form_type_id=?');
-  return stmt.all(formTypeId);
+  let rows = stmt.all(formTypeId);
+  rows.forEach((elem) => {
+    elem.value = JSON.parse(elem.value);
+  });
+  return rows;
+};
+
+module.exports.replaceFormQuestions = function(formTypeId, data) {
+  let stmt = db.prepare('DELETE FROM form_questions WHERE form_type_id=?');
+  stmt.run(formTypeId);
+
+  data.forEach((q) => {
+    let sql = `INSERT INTO form_questions (form_type_id, question_number, value, type, mandatory) VALUES (?, ?, ?, ?, ?)`;
+    db.prepare(sql).run(formTypeId, q.question_number, JSON.stringify(q.value), q.type, q.mandatory);
+  });
 };
 
 module.exports.getFormType = function(formTypeId) {
   let stmt = db.prepare('SELECT * FROM form_types WHERE form_type_id=?');
   return stmt.get(formTypeId);
+};
+
+module.exports.createFormType = function(name, prepost) {
+  let res = db.prepare('INSERT INTO form_types (name, prepost) VALUES (?, ?)').run(name, prepost);
+  return res.lastInsertRowid;
 };
 
 module.exports.getProjectGroupMember = function(slackUserId) {
