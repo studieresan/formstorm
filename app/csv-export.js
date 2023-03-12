@@ -16,7 +16,7 @@ function rowToTxt(row) {
 function addQuestionsToOutput(questions, outputRows) {
   questions.sort((a, b) => (a.question_number > b.question_number) ? 1 : -1);
   questions = questions.map((q) => {
-    return JSON.parse(q.value).question;
+    return q.value.question;
   });
   outputRows.push(rowToTxt(questions));
 }
