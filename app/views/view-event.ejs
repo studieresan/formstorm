@@ -4,139 +4,191 @@
     <meta charset="utf-8">
     <title>View event</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/view-event.css">
   </head>
   <body>
-    <div id="main-container">
-      <div id="main-left">
-        <h2><%= event.company_name %></h2>
-        <h4><%= event.date %></h4>
+    <div class="uk-container uk-container-small">
+      <a href="/">
+        <button class="uk-modal-close-default uk-button-default uk-button-small uk-padding-small" type="button">✕</button>
+      </a>
 
-        <p>
-          All answered: 
-          <% if (event.all_answered === 0) { %>
-            <img class="all-answered-symbol" src="/img/not-filled.png">
-          <% } else { %>
-            <img class="all-answered-symbol" src="/img/filled.png">
-          <% } %>
-        </p>
+      <h2 class="uk-text-center uk-padding uk-padding-remove-bottom"><%= event.company_name %></h2>
+      <h4 class="uk-text-center uk-margin-remove-top"><%= event.date %></h4>
 
-        <!--<p>Pre-form: <%= formTypes.pre.name %></p>
-        <p>Post-form: <%= formTypes.post.name %></p>-->
+      <div uk-grid class="uk-flex-center">
+        <div>
+          <button class="uk-icon-button" uk-icon="pencil" type="button" uk-toggle="target: #edit-close"></button>
+        </div>
+        <div>
+          <button class="uk-icon-button" uk-icon="bell" type="button" uk-toggle="target: #remind-close"></button>
+        </div>
+        <div>
+          <button class="uk-icon-button" uk-icon="file-text" type="button" uk-toggle="target: #form-close"></button>
+        </div>
+      </div>
 
-        <fieldset>
-          <legend>Update event</legend>
+      <div id="edit-close" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+          <button class="uk-modal-close-default" type="button" uk-close></button>
+
           <form method="POST" action="/event/update">
-            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            <fieldset class="uk-fieldset">
+              <legend class="uk-legend">Update event</legend>
+              
+              <input type="hidden" name="event_id" value="<%= event.event_id %>">
+    
+              <div class="uk-margin">
+                <label class="uk-form-label" for="company_name">Name of company: </label>
+                <div class="uk-form-controls">
+                  <input class="uk-input" type="text" name="company_name" id="company_name" value="<%= event.company_name %>">
+                </div>
+              </div>
 
-            <label for="company_name">Name of company: </label>
-            <input type="text" name="company_name" id="company_name" value="<%= event.company_name %>">
-            <br>
-          
-            <label for="date">Date & time: </label>
-            <input type="datetime-local" id="date" name="date" value="<%= event.date %>">
-            <br>
-            
-            <input type="submit" value="Update">
+              <div class="uk-margin">
+                <label class="uk-form-label" for="date">Date & time: </label>
+                <div class="uk-form-controls">
+                  <input class="uk-input" type="datetime-local" name="date" id="date" value="<%= event.date %>">
+                </div>
+              </div>
+              
+              <div class="uk-margin">
+                <input class="uk-input" type="submit" value="Update">
+              </div>
+            </fieldset>
           </form>
-        </fieldset>
+        </div>
+      </div>
 
-        <br>
-
-        <fieldset>
-          <legend>Reminders</legend>
-
-          <label for="remind">Auto remind: </label>
-          <% if (event.auto_remind === 0) { %>
-            <img id="remind" class="all-answered-symbol" src="/img/not-filled.png">
-          <% } else { %>
-            <img id="remind" class="all-answered-symbol" src="/img/filled.png">
-          <% } %>
+      <div id="remind-close" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+          <button class="uk-modal-close-default" type="button" uk-close></button>
           <br>
-
-          <label for="last_sent">Last reminder: </label>
-          <input class="last-reminder" readonly type="text" id="last_sent" value="<%= event.last_sent %>">
-          <br>
-
-          <form method="POST" action="/event/toggle-auto-remind">
-            <input type="hidden" name="event_id" value="<%= event.event_id %>">
-            <input type="submit" value="Toggle auto remind">
-          </form>
 
           <form method="POST" action="/event/remind-now">
             <input type="hidden" name="event_id" value="<%= event.event_id %>">
-            <input type="submit" value="Send reminders now">
+            <input class="uk-input" type="submit" value="Send reminders now">
           </form>
-        </fieldset>
 
-        <br>
+          <hr class="uk-divider-icon">
 
-        <fieldset>
-          <legend>Export forms</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="last_sent">Last reminder: </label>
+            <div class="uk-form-controls">
+              <input readonly class="uk-input" type="text" id="last_sent" value="<%= event.last_sent %>">
+            </div>
+          </div>
+
+          <div class="uk-margin">
+            <form method="POST" action="/event/toggle-auto-remind" id="auto-remind-form">
+              <div class="uk-form-controls">
+                <label class="uk-form-label" for="remind">Auto remind: </label>
+                
+                <% if (event.auto_remind === 0) { %>
+                  <input id="remind" type="checkbox" class="uk-checkbox" onclick="document.getElementById('auto-remind-form').submit();">
+                <% } else { %>
+                  <input checked id="remind" type="checkbox" class="uk-checkbox" onclick="document.getElementById('auto-remind-form').submit();">
+                <% } %>
+              </div>
+              
+              <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="form-close" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+          <button class="uk-modal-close-default" type="button" uk-close></button>
+
           <form method="POST" action="/event/export-forms">
-            <input type="hidden" name="event_id" value="<%= event.event_id %>">
-            <select name="prepost" id="prepost">
-              <option value="0">Pre</option>
-              <option value="1">Post</option>
-            </select>
-            <input type="submit" value="Export">
+            <fieldset class="uk-fieldset">
+              <legend class="uk-legend">Export forms</legend>
+              <br>
+              <input type="hidden" name="event_id" value="<%= event.event_id %>">
+
+              <select class="uk-select" name="prepost" id="prepost">
+                <option value="0">Pre</option>
+                <option value="1">Post</option>
+              </select>
+
+              <br><br>
+              <input class="uk-button uk-button-default" type="submit" value="Export">          
+            </fieldset>
           </form>
-        </fieldset>
-
-        <br>
-        <a href="/"><button>Return to home</button></a>
+        </div>
       </div>
 
-      <div id="main-right">
-        <h3>Attendees</h3>
-        <table>
+      <p class="uk-text-center">
+        All answered: 
+        <% if (event.all_answered === 0) { %>
+          <span uk-icon="icon: close"></span>
+        <% } else { %>
+          <span uk-icon="icon: check"></span>
+        <% } %>
+      </p>
+
+      <!--<p>Pre-form: <%= formTypes.pre.name %></p>
+      <p>Post-form: <%= formTypes.post.name %></p>-->
+
+      <table class="uk-table uk-table-divider">
+        <thead>
           <tr>
-            <th title="Who's attending&#013;  Green: Studsare&#013;  Yellow: Substitute&#013;  Red: Nobody&#013;">
-              <span id="diamond"></span>
-            </th>
-            <th>Name</th>
-            <th>Substitute name</th>
-            <th>Pre filled</th>
-            <th>Post filled</th>
-            <th>Delete</th>
+            <th class="uk-table-shrink"><span style="visibility: hidden;">---</span></th>
+            <th>Name/Substitute</th>
+            <th><span uk-icon="file-edit"></span></th>
+            <th><span class="uk-icon uk-icon-image not-participate"></span></th>
           </tr>
-          <% attendees.forEach((attendee) => { %>
-            <tr>
-              <td class="attendee-status-<%= attendee.status %>"
-                  title="Who's attending&#013;  Green: Studsare&#013;  Yellow: Substitute&#013;  Red: Nobody&#013;">
-              </td>
-              <td class="<% if (attendee.status !== 0) { %> strike <% } %>">
-                <%= attendee.reg_name %>
-              </td>
-              <td><%= attendee.sub_name %></td>
-              <td>
-                <% if (attendee.has_filled_pre) { %>
-                  <img class="status-symbol" src="/img/filled.png">
-                <% } else { %>
-                  <img class="status-symbol" src="/img/not-filled.png">
-                <% } %>
-              </td>
-              <td>
-                <% if (attendee.has_filled_post) { %>
-                  <img class="status-symbol" src="/img/filled.png">
-                <% } else { %>
-                  <img class="status-symbol" src="/img/not-filled.png">
-                <% } %>
-              </td>
-              <td>
-                <% if (!attendee.has_filled_post) { %>
-                  <form action="/event/toggle-participate" method="POST">
-                    <input type="hidden" name="event_id" value="<%= event.event_id %>">
-                    <input type="hidden" name="slack_user_id" value="<%= attendee.slack_user_id %>">
-                    <input type="button" class="delete-button" value="✕">
-                  </form>
-                <% } %>
-              </td>
-            </tr>
-          <% }); %>
-        </table>
-      </div>
+        </thead>
+        <% attendees.forEach((attendee) => { %>
+          <tr>
+            <td class="uk-padding-remove-right">
+              <% if (attendee.status === 0) { %>
+                <span uk-icon="hashtag" style="color: white;"></span>
+              <% } else if (attendee.status === 1) { %>
+                <span uk-icon="users"></span>
+              <% } else { %>
+                <span uk-icon="ban"></span>
+              <% } %>
+            </td>
+            <td>
+              <p>
+                <span class="<% if (attendee.status !== 0) { %> strike <% } %>">
+                  <%= attendee.reg_name %>
+                </span>
+                <br>
+                <%= attendee.sub_name %>
+              </p>
+            </td>
+            <td>
+              <% if (!attendee.has_filled_pre) { %>
+                <span uk-icon="minus-circle" style="color: red;"></span>
+              <% } else if (!attendee.has_filled_post) { %>
+                <span uk-icon="reply" style="color: orange;"></span>
+              <% } else { %>
+                <span uk-icon="check" style="color: green;"></span>
+              <% } %>
+            </td>
+            <td>
+              <% if (!attendee.has_filled_post) { %>
+                <form action="/event/toggle-participate" method="POST">
+                  <input type="hidden" name="event_id" value="<%= event.event_id %>">
+                  <input type="hidden" name="slack_user_id" value="<%= attendee.slack_user_id %>">
+                  <% if (attendee.status < 2) { %>
+                    <input type="button" class="uk-button uk-button-default uk-button-small delete-button" value="✕">
+                  <% } else { %>
+                    <input type="button" class="uk-button uk-button-default uk-button-small delete-button" value="⟳">
+                  <% } %>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </table>
+    
     </div>
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
     <script>
       document.querySelectorAll('.delete-button').forEach((btn) => {
         btn.onclick = function(e) {

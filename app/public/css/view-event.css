@@ -1,83 +1,8 @@
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 5px;
-}
-
-#diamond {
-  display: block;
-  border: 1px solid black;
-  width: 15px;
-  height: 15px;
-  transform: rotate(45deg);
-  margin: 3px;
-}
-
-.attendee-status-0 {
-  background: green;
-}
-
-.attendee-status-1 {
-  background: yellow;
-}
-
-.attendee-status-2 {
-  background: red;
-}
-
 .strike {
   text-decoration: line-through;
 }
 
-.status-symbol {
-  width: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#main-left {
-  width: 300px;
-  float: left;
-  padding: 20px;
-}
-
-#main-right {
-  padding: 20px;
-  float: left;
-}
-
-.all-answered-symbol {
-  position: relative;
-  width: 20px;
-  top: 3px;
-}
-
-.delete-button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.last-reminder {
-  width: 96%;
-}
-
-@media screen and (max-width: 750px) {
-  #main-right {
-    padding: 0px;
-    font-size: 12px;
-  }
-
-  .status-symbol {
-    width: 15px;
-  }
-
-  th {
-    padding-left: 2px;
-    padding-right: 2px;
-  }
+.not-participate {
+  background-image: url(/img/person-x.svg);
+  filter: invert(68%) sepia(0%) saturate(151%) hue-rotate(202deg) brightness(86%) contrast(81%);
 }
