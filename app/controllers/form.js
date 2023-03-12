@@ -95,7 +95,7 @@ function validateSubmissionAnswer(a, q) {
       throw new util.InternalError(400, `Question number ${q.question_number} is mandatory!`);
   }
 
-  let qData = JSON.parse(q.value);
+  let qData = q.value;
 
   switch (q.type) {
     case 0:
