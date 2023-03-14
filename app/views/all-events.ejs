@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+  </head>
+  <body>
+    <div class="uk-container uk-container-small">
+      <a href="/">
+        <button class="uk-button-default uk-button-small uk-margin-top" type="button" style="padding: 5px 15px 5px 15px;">✕</button>
+      </a>
+
+      <h3 class="uk-text-center uk-margin-remove-top">Events</h3> 
+      <a href="/event/create"><button class="uk-align-center uk-button uk-button-default">Create event...</button></a>
+      
+      <table id="events" class="uk-table uk-table-divider">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Date</th>
+            <th><span uk-icon="file-edit"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% events.forEach((event) => { %>
+            <tr>
+              <td><a class="event-link" href="/event/view?event_id=<%= event.event_id %>"><%= event.company_name %></a></td>
+              <td><%= event.date %></td>
+              <td>
+                <% if (event.all_answered === 0) { %>
+                  <span uk-icon="icon: close"></span>
+                <% } else { %>
+                  <span uk-icon="icon: check"></span>
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <br>
+    </div>
+
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
+  </body>
+</html>

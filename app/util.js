@@ -98,12 +98,24 @@ module.exports.convertToStringDate = function(events, locale='sv-SE', options={}
   }
 };
 
-module.exports.checkLoggedIn = function(req) {
-  return process.env.PASSWORD === '' || req.session.loggedIn === true;
+module.exports.checkLoggedInEvent = function(req) {
+  return process.env.PASSWORD_EVENT === '' || req.session.loggedInEvent === true;
 };
 
-module.exports.blockUnauthorized = function(req, res, next) {
-  if (!module.exports.checkLoggedIn(req)) {
+module.exports.checkLoggedInInfo = function(req) {
+  return process.env.PASSWORD_INFO === '' || req.session.loggedInInfo === true;
+};
+
+module.exports.blockUnauthorizedEvent = function(req, res, next) {
+  if (!module.exports.checkLoggedInEvent(req)) {
+    res.status(401).send('Unauthorized');
+  } else {
+    next();
+  }
+};
+
+module.exports.blockUnauthorizedInfo = function(req, res, next) {
+  if (!module.exports.checkLoggedInInfo(req)) {
     res.status(401).send('Unauthorized');
   } else {
     next();
@@ -115,4 +127,6 @@ module.exports.getFormUrl = function(internalId, prepost) {
 };
 
 // Used when logging in to the admin pages via slack if the user is an admin:
-module.exports.loginToken = crypto.randomBytes(15).toString('hex');
+module.exports.loginTokenEvent = crypto.randomBytes(15).toString('hex');
+module.exports.loginTokenInfo = crypto.randomBytes(15).toString('hex');
+module.exports.loginTokenBoth = crypto.randomBytes(15).toString('hex');

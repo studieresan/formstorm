@@ -296,12 +296,18 @@ module.exports.getAllUsers = function() {
 };
 
 module.exports.getAllSubstitutes = function() {
-  let sql =
-    `SELECT fst.slack_user_id, real_name FROM
-      (SELECT slack_user_id FROM user_data EXCEPT SELECT slack_user_id FROM project_group) AS fst
-      INNER JOIN
-      user_data AS snd
-      ON fst.slack_user_id = snd.slack_user_id`;
+  let sql = `
+    SELECT fst.slack_user_id, real_name, count FROM
+    (SELECT slack_user_id FROM user_data EXCEPT SELECT slack_user_id FROM project_group) AS fst
+    INNER JOIN
+    user_data AS snd
+    ON fst.slack_user_id = snd.slack_user_id
+    LEFT JOIN (
+      SELECT COUNT(ROWID) as count, substitute_slack_id
+      FROM attendees
+      GROUP BY substitute_slack_id
+    ) as trd
+    ON trd.substitute_slack_id = fst.slack_user_id`;
   return db.prepare(sql).all();
 };
 

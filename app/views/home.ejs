@@ -4,63 +4,39 @@
     <meta charset="utf-8">
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+    <link rel="stylesheet" href="/css/home.css" />
   </head>
   <body>
-    <div id="main-left">
-      <h4>Actions</h4>
-      <fieldset>
-        <legend>Create a new event</legend>
-        <a href="/event/create"><button>Create event...</button></a>
-      </fieldset>
-      <br>
-      <fieldset>
-        <legend>Preview a form</legend>
-        <form method="GET" action="/form">
-          <label for="form_type_id">Form type: </label>
-          <select name="form_type_id" id="form_type_id" style="margin-bottom: 5px;">
-            <option value="1">Pre</option>
-            <option value="2">Post</option>
-          </select><br>
-          <input type="submit" value="Preview">
-        </form>
-      </fieldset>
-      <br>
-      <a href="/logout"><button>Log out</button></a>
+    <div class="uk-container uk-container-small">
+        <br>
+        <h2 class="uk-text-center">Studs Form System</h2>
+
+        <div class="uk-card uk-card-body uk-width-1-2@m uk-align-center">
+            <a href="/event">
+                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                    Events
+                </button>
+            </a>
+
+            <a href="/event/substitutes">
+                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                    Substitutes
+                </button>
+            </a>
+
+            <a href="/forms">
+                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                    Forms
+                </button>
+            </a>
+        </div>
+        
     </div>
-    <div id="main-right">
-      <h2>Events</h2>
-      <table id="events">
-        <tr>
-          <th>Link</th>
-          <th>Company</th>
-          <th>Date</th>
-          <th>All answered</th>
-        </tr>
-        <% events.forEach((event) => { %>
-          <tr>
-            <td><a class="event-link" href="/event/view?event_id=<%= event.event_id %>"><button>Open</button></a></td>
-            <td><%= event.company_name %></td>
-            <td><%= event.date %></td>
-            <td>
-              <% if (event.all_answered === 0) { %>
-                <img class="status-symbol" src="/img/not-filled.png">
-              <% } else { %>
-                <img class="status-symbol" src="/img/filled.png">
-              <% } %>
-            </td>
-          </tr>
-        <% }); %>
-      </table>
-      <br>
-      <h3>Substitutes (<%= substitutes.length %>)</h3>
-      <ul>
-        <% substitutes.forEach((substitute) => { %>
-          <li>
-            <%= substitute.real_name %>
-          </li>
-        <% }); %>
-      </ul>
-    </div>
+
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
   </body>
 </html>
+
+

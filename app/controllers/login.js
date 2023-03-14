@@ -3,8 +3,8 @@ const util = require('../util');
 module.exports.performLoginPost = function(req, res) {
   try {
     util.checkValidation(req);
-    if (req.body.password === process.env.PASSWORD) {
-      req.session.loggedIn = true;
+    if (req.body.password === process.env.PASSWORD_EVENT) {
+      req.session.loggedInEvent = true;
       res.redirect('/');
     } else {
       let msg = 'Wrong password';
