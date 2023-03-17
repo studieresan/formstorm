@@ -4,11 +4,14 @@ const express = require('express');
 const sessions = require('express-session');
 require('dotenv').config();
 
-const homeRoutes = require('./routes/home');
+const allEvents = require('./routes/all-events');
 const viewEventRoutes = require('./routes/view-event');
 const createEventRoutes = require('./routes/create-event');
+const subsEventRoutes = require('./routes/all-substitutes');
+const formsInfoRoutes = require('./routes/all-forms');
 const formRoutes = require('./routes/form');
 const loginRoutes = require('./routes/login');
+const homeRoutes = require('./routes/home');
 
 const db = require('./services/db');
 const util = require('./util');
@@ -40,13 +43,17 @@ webApp.set('view engine', 'ejs');
 webApp.set('views', path.join(__dirname, 'views'));
 webApp.use(express.static(path.join(__dirname, 'public')))
 
-webApp.use('/event', util.blockUnauthorized);
+webApp.use('/event', util.blockUnauthorizedEvent);
+webApp.use('/info', util.blockUnauthorizedInfo); // denna ska senare blockera den andra auth:en
 
-webApp.use('/', homeRoutes);
+webApp.use('/event', allEvents);
 webApp.use('/event', viewEventRoutes);
 webApp.use('/event', createEventRoutes);
+webApp.use('/event', subsEventRoutes);
+webApp.use('/info', formsInfoRoutes);
 webApp.use('/', formRoutes);
 webApp.use('/', loginRoutes);
+webApp.use('/', homeRoutes);
 
 /* Returns the property if it exists, if not,
    returns default value if it's defined, if not,

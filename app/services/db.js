@@ -143,8 +143,8 @@ module.exports.getAllRemindEvents = function() {
 
 module.exports.createEvent = function(date, companyName, description, preForm, postForm) {
   let sql = `INSERT INTO company_events
-             (date, company_name, description, pre_form, post_form, all_answered, auto_remind)
-             VALUES (?, ?, ?, ?, ?, 0, 1)`;
+             (date, company_name, description, pre_form, post_form, all_answered, auto_remind, last_remind_time, no_last_reminded)
+             VALUES (?, ?, ?, ?, ?, 0, 1, NULL, NULL)`;
   let stmt = db.prepare(sql);
   return stmt.run(date, companyName, description, preForm, postForm);
 };
