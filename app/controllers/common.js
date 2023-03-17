@@ -96,9 +96,9 @@ module.exports.updateUserInDB = function(slackUser) {
 /*    SLACK HOME PAGE    */
 /* --------------------- */
 
-function genBlockEntry(slackUserId, attendee) {
+function genBlockEntry(slackUserId, attendee, adminInfo) {
   let event = db.getEvent(attendee.event_id);
-  let header = slackBlocks.header(event);
+  let header = slackBlocks.header(event, adminInfo);
 
   if (attendee.status === 2) {
     return [header, slackBlocks.notParticipating()];
@@ -139,7 +139,7 @@ module.exports.updateAppHome = async function(slackUserId) {
   ];
 
   for (let i = 0; i < attendees.length; i++) {
-    let newBlocks = genBlockEntry(slackUserId, attendees[i]);
+    let newBlocks = genBlockEntry(slackUserId, attendees[i], adminInfo);
     blocks = [...blocks, ...newBlocks];
     if (i !== attendees.length - 1) {
       blocks.push({ type: 'divider' });

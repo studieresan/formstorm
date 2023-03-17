@@ -34,6 +34,10 @@ async function addProjectGroupToChannel(projectGroup, channelId) {
   return slack.inviteToChannel(projectGroup.join(), channelId);
 }
 
+async function postNewEventMessage(channelId) {
+  return slack.sendMessage(channelId, 'Click on me to fill the forms!');
+}
+
 module.exports.createEventGet = function(req, res) {  
   res.render('create-event', {infoMsg: '', data: {}});
 };
@@ -49,6 +53,7 @@ module.exports.createEventPost = async function(req, res) {
     let createResponse = await slack.createEventSlack(channelName);
     await addProjectGroupToChannel(projectGroup, createResponse.channel.id);
     db.setEventChannelId(eventId, createResponse.channel.id);
+    await postNewEventMessage(createResponse.channel.id);
     res.render('create-event', {infoMsg: 'Event created!', data: {}});
   } catch(err) {
     let msg = util.processErr(err);

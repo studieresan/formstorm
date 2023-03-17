@@ -1,18 +1,27 @@
 const util = require('../util');
 
+function redirect(req, res) {
+  if (req.query.redirect) {
+    let url = new URL(req.query.redirect, process.env.URL).href;
+    res.redirect(url);
+  } else {
+    res.redirect('/');
+  }
+}
+
 module.exports.performLoginGet = function(req, res) {
   try {
     util.checkValidation(req);
     if (req.query.token === util.loginTokenEvent) {
       req.session.loggedInEvent = true;
-      res.redirect('/');
+      redirect(req, res);
     } else if (req.query.token === util.loginTokenInfo) {
       req.session.loggedInInfo = true;
-      res.redirect('/');
+      redirect(req, res);
     } else if (req.query.token === util.loginTokenBoth) {
       req.session.loggedInEvent = true;
       req.session.loggedInInfo = true;
-      res.redirect('/');
+      redirect(req, res);
     } else {
       let msg = 'Wrong login token';
       res.render('login', {infoMsg: msg});

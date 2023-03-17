@@ -191,7 +191,7 @@ module.exports.refreshAppHome = async function ({body, ack}) {
   }
 };
 
-module.exports.openAdminPages = async function ({ack}) {
+module.exports.ackButton = async function ({ack}) {
   try {
     await ack();
   } catch (err) {

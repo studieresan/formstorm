@@ -28,4 +28,6 @@ slackApp.shortcut('list_not_reacted', reactionController.listNotReactedShortcut)
 
 slackApp.action('refresh', controller.refreshAppHome);
 
-slackApp.action('admin', controller.openAdminPages);
+slackApp.action('admin', controller.ackButton);
+
+slackApp.action('create_event', controller.ackButton);

@@ -9,19 +9,7 @@ function getLoginToken(adminInfo) {
     return util.loginTokenInfo;
 }
 
-module.exports.topBlock = function(adminInfo) {
-  let actionsElements = [
-    {
-      'type': 'button',
-      'text': {
-        'type': 'plain_text',
-        'text': 'Refresh'
-      },
-      'style': 'primary',
-      'action_id': 'refresh',
-    }
-  ];
-
+function addLoginElem(actionsElements, adminInfo) {
   if (adminInfo.event || adminInfo.info) {
     let loginToken = getLoginToken(adminInfo);
 
@@ -35,6 +23,39 @@ module.exports.topBlock = function(adminInfo) {
       'url': new URL(`login-with-token?token=${loginToken}`, process.env.URL).href
     });
   }
+}
+
+function addCreateEventElem(actionsElements, adminInfo) {
+  if (adminInfo.event) {
+    let loginToken = getLoginToken(adminInfo);
+
+    actionsElements.push({
+      'type': 'button',
+      'text': {
+        'type': 'plain_text',
+        'text': 'Create event'
+      },
+      'action_id': 'create_event',
+      'url': new URL(`login-with-token?token=${loginToken}&redirect=/event/create`, process.env.URL).href
+    });
+  }
+}
+
+module.exports.topBlock = function(adminInfo) {
+  let actionsElements = [
+    {
+      'type': 'button',
+      'text': {
+        'type': 'plain_text',
+        'text': 'Refresh'
+      },
+      'style': 'primary',
+      'action_id': 'refresh',
+    }
+  ];
+
+  addLoginElem(actionsElements, adminInfo);
+  addCreateEventElem(actionsElements, adminInfo);
 
   return {
     'type': 'actions',
@@ -42,13 +63,22 @@ module.exports.topBlock = function(adminInfo) {
   };
 };
 
-module.exports.header = function(event) {
+module.exports.header = function(event, adminInfo) {
   let dateEventObj = {date: event.date}; // copy the date value to new object
   util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
+
+  if (adminInfo.event) {
+    let redirectLink = `/event/view?event_id=${event.event_id}`;
+    let loginLink = new URL(`login-with-token?token=${util.loginTokenEvent}&redirect=${redirectLink}`, process.env.URL).href;
+    var text = `:studs:  <${loginLink}|*${event.company_name}*>  ${dateEventObj.date}`;
+  } else {
+    var text = `:studs:  *${event.company_name}*  ${dateEventObj.date}`;
+  }
+
   return {
     'type': 'section',
     'text': {
-      'text': `:studs:  *${event.company_name}*  ${dateEventObj.date}`,
+      'text': text,
       'type': 'mrkdwn'
     }
   };
