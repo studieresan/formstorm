@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/login.css">
   </head>
   <body>
-    <div id="main">
-      <form method="POST" action="/login">
-        <fieldset>
-          <legend>Log in</legend>
-          <p><%= infoMsg %></p>
-          <input type="password" name="password" id="password" placeholder="Password">
-          <input type="submit" value="Log in">
-        </fieldset>
-      </form>
+    <div class="uk-container uk-container-small">
+      <div id="main">
+        <br>
+        <h3 class="uk-text-center"><%= infoMsg %></h3>
+      </div>
     </div>
+
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
   </body>
 </html>

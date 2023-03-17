@@ -11,7 +11,11 @@ function getAccessInfo(req) {
 module.exports.home = function(req, res) {
   try {
     let accessInfo = getAccessInfo(req);
-    res.render('home', {accessInfo});
+    if (!accessInfo.event && !accessInfo.info) {
+      res.redirect('/login');
+    } else {
+      res.render('home', {accessInfo});
+    }
   } catch(err) {
     util.sendErr(res, err);
   }

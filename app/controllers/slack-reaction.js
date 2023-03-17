@@ -35,8 +35,8 @@ async function remindDm(shortcut) {
 
   let admin = db.getAdmin(invoker);
 
-  if (admin === undefined) {
-    await slack.sendMessage(invoker, 'You must have admin permission to use the remind action! :stuck_out_tongue:');
+  if (!admin.event) {
+    await slack.sendMessage(invoker, 'You must have event admin permission to use the remind action! :stuck_out_tongue:');
     return;
   }
 

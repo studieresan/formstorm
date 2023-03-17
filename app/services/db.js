@@ -111,14 +111,35 @@ module.exports.createAttendee = function(eventId, slackId, id) {
   stmt.run(eventId, slackId, id);
 };
 
-module.exports.addAdmin = function(slackUserId) {
-  let stmt = db.prepare('INSERT OR IGNORE INTO admins (slack_user_id) VALUES (?)');
+// adminType: 1 === event, 2 === info
+module.exports.addAdmin = function(slackUserId, adminType) {
+  let stmt = db.prepare('INSERT OR IGNORE INTO admins (slack_user_id, event, info) VALUES (?, 0, 0)');
+  stmt.run(slackUserId);
+
+  if (adminType === 1)
+    stmt = db.prepare('UPDATE admins SET event=1 WHERE slack_user_id=?');
+  else if (adminType === 2)
+    stmt = db.prepare('UPDATE admins SET info=1 WHERE slack_user_id=?');
+  else
+    return new util.InternalError(500, 'No such adminType!');
   stmt.run(slackUserId);
 };
 
+// returns: {event: true/false, info: true/false}
 module.exports.getAdmin = function(slackUserId) {
   let stmt = db.prepare('SELECT * FROM admins WHERE slack_user_id=?');
-  return stmt.get(slackUserId);
+  let res = stmt.get(slackUserId);
+  let perm = {event: false, info: false};
+
+  if (res === undefined)
+    return perm;
+  
+  if (res.event === 1)
+    perm.event = true;
+  if (res.info === 1)
+    perm.info = true;
+
+  return perm;
 };
 
 module.exports.getEvent = function(eventId) {

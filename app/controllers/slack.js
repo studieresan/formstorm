@@ -102,11 +102,14 @@ async function sendFirstJoin(slackUserId) {
 }
 
 function checkAddAdmin(command) {
-  if (command.text === process.env.PASSWORD) {
-    db.addAdmin(command.user_id);
-    return true;
+  if (command.text === process.env.PASSWORD_EVENT) {
+    db.addAdmin(command.user_id, 1);
+    return 'You now have access to the event admin pages via the forms menu in Slack.';
+  } else if (command.text === process.env.PASSWORD_INFO) {
+    db.addAdmin(command.user_id, 2);
+    return 'You now have access to the info admin pages via the forms menu in Slack.';
   } else {
-    return false;
+    return 'Incorrect password.';
   }
 }
 
@@ -173,10 +176,7 @@ module.exports.adminCommand = async function ({command, ack, respond}) {
   try {
     await ack();
     let res = checkAddAdmin(command);
-    if (res)
-      await respond('You now have access to the admin pages via the forms menu in Slack.');
-    else
-      await respond('Incorrect password.');
+    await respond(res);
   } catch (err) {
     util.err(err);
   }

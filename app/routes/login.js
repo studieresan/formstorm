@@ -8,11 +8,6 @@ router.get('/login', controller.loginGet);
 
 router.get('/logout', controller.logout);
 
-router.post('/login',
-  body('password').not().isEmpty(),
-  controller.performLoginPost
-);
-
 router.get('/login-with-token',
   query('token').not().isEmpty(),
   controller.performLoginGet

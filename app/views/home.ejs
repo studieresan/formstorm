@@ -13,23 +13,27 @@
         <h2 class="uk-text-center">Studs Form System</h2>
 
         <div class="uk-card uk-card-body uk-width-1-2@m uk-align-center">
-            <a href="/event">
-                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
-                    Events
-                </button>
-            </a>
+            <% if (accessInfo.event) { %>
+                <a href="/event">
+                    <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                        Events
+                    </button>
+                </a>
 
-            <a href="/event/substitutes">
-                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
-                    Substitutes
-                </button>
-            </a>
+                <a href="/event/substitutes">
+                    <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                        Substitutes
+                    </button>
+                </a>
+            <% } %>
 
-            <a href="/forms">
-                <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
-                    Forms
-                </button>
-            </a>
+            <% if (accessInfo.info) { %>
+                <a href="/forms">
+                    <button class="uk-button uk-button-default uk-button-large uk-align-center uk-text-large uk-width-expand uk-padding-small">
+                        Forms
+                    </button>
+                </a>
+            <% } %>
         </div>
         
     </div>

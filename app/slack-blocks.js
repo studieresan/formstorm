@@ -1,6 +1,15 @@
 const util = require('./util');
 
-module.exports.topBlock = function(isAdmin) {
+function getLoginToken(adminInfo) {
+  if (adminInfo.event && adminInfo.info)
+    return util.loginTokenBoth;
+  else if (adminInfo.event)
+    return util.loginTokenEvent;
+  else
+    return util.loginTokenInfo;
+}
+
+module.exports.topBlock = function(adminInfo) {
   let actionsElements = [
     {
       'type': 'button',
@@ -13,7 +22,9 @@ module.exports.topBlock = function(isAdmin) {
     }
   ];
 
-  if (isAdmin) {
+  if (adminInfo.event || adminInfo.info) {
+    let loginToken = getLoginToken(adminInfo);
+
     actionsElements.push({
       'type': 'button',
       'text': {
@@ -21,7 +32,7 @@ module.exports.topBlock = function(isAdmin) {
         'text': 'Open admin pages'
       },
       'action_id': 'admin',
-      'url': new URL(`login-with-token?token=${util.loginToken}`, process.env.URL).href
+      'url': new URL(`login-with-token?token=${loginToken}`, process.env.URL).href
     });
   }
 
