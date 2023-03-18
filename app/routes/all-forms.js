@@ -6,6 +6,17 @@ const router = express.Router();
 
 router.get('/', controller.allForms);
 
+router.get('/export-forms',
+  query('event_id').not().isEmpty(),
+  controller.exportFormsGet
+);
+
+router.post('/export-forms',
+  body('event_id').not().isEmpty(),
+  body('prepost').not().isEmpty().isInt({min: 0, max: 1}).toInt(),
+  controller.exportFormsPost
+);
+
 router.get('/set-default',
   query('form_type_id').not().isEmpty(),
   controller.setDefault

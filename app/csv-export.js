@@ -46,6 +46,8 @@ function saveCsv(outputRows, event, prepost) {
 module.exports.exportAnswers = function(eventId, prepost) {
   let outputRows = [];
   let event = db.getEvent(eventId);
+  if (event === undefined)
+      throw new util.InternalError(400, 'No such event!');
   let formTypeId = prepost === 0 ? event.pre_form : event.post_form;
   let questions = db.getFormQuestions(formTypeId);
   let forms = db.getFormsByEvent(eventId, prepost);

@@ -1,5 +1,6 @@
 const db = require('../services/db');
 const util = require('../util');
+const csvExport = require('../csv-export');
 
 function convertNumEvents(forms) {
   forms.forEach((form) => {
@@ -99,6 +100,28 @@ module.exports.allForms = function(req, res) {
   } catch(err) {
     let msg = util.processErr(err);
     res.render('all-forms', {forms: [], defaultForms: [], infoMsg: msg});
+  }
+};
+
+module.exports.exportFormsGet = function(req, res) {
+  try {
+    util.checkValidation(req);
+    let event = db.getEvent(req.query.event_id);
+    if (event === undefined)
+      throw new util.InternalError(400, 'No such event!');
+    res.render('export-forms', {event});
+  } catch(err) {
+    util.sendErr(res, err);
+  }
+};
+
+module.exports.exportFormsPost = function(req, res) {
+  try {
+    util.checkValidation(req);
+    let fileName = csvExport.exportAnswers(req.body.event_id, req.body.prepost);
+    res.download(fileName);
+  } catch(err) {
+    util.sendErr(res, err);
   }
 };
 

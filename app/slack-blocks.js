@@ -67,13 +67,22 @@ module.exports.header = function(event, adminInfo) {
   let dateEventObj = {date: event.date}; // copy the date value to new object
   util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
 
+  let eventText = `*${event.company_name}*`;
+  let infoText = '';
+
   if (adminInfo.event) {
     let redirectLink = `/event/view?event_id=${event.event_id}`;
     let loginLink = new URL(`login-with-token?token=${util.loginTokenEvent}&redirect=${redirectLink}`, process.env.URL).href;
-    var text = `:studs:  <${loginLink}|*${event.company_name}*>  ${dateEventObj.date}`;
-  } else {
-    var text = `:studs:  *${event.company_name}*  ${dateEventObj.date}`;
+    eventText = `<${loginLink}|*${event.company_name}*>`;
   }
+
+  if (adminInfo.info) {
+    let redirectLink = `/info/export-forms?event_id=${event.event_id}`;
+    let loginLink = new URL(`login-with-token?token=${util.loginTokenInfo}&redirect=${redirectLink}`, process.env.URL).href;
+    infoText = `<${loginLink}|:page_facing_up:>`;
+  }
+
+  let text = `:studs:  ${eventText}  ${infoText}  ${dateEventObj.date}`;
 
   return {
     'type': 'section',

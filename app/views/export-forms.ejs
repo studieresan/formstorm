@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Export forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+  </head>
+  <body>
+    <div class="uk-container uk-container-small">
+      <div class="uk-card uk-card-default uk-card-body uk-width-2-3@m uk-align-center uk-margin-large-top">
+        <h2 class="uk-text-center"><%= event.company_name %></h2>
+
+        <p>All answered:
+          <%= event.all_answered === 1 ? ' Yes' : ' No' %>
+        </p>
+
+        <form method="POST" action="/info/export-forms">
+          <fieldset class="uk-fieldset">          
+            <legend class="uk-legend">Export Forms</legend>
+            <input type="hidden" name="event_id" value="<%= event.event_id %>">
+            <br>
+            <select class="uk-select" name="prepost" id="prepost">
+              <option value="0">Pre</option>
+              <option value="1">Post</option>
+            </select>
+            <input class="uk-button uk-button-default uk-margin" type="submit" value="Export">
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
