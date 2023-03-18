@@ -240,7 +240,8 @@ function getStat(eventId, prepost, questionNumber) {
     return prev + curr;
   }, 0);
   let len = Math.max(answers.length, 1);
-  return sum/len;
+  let num = sum/len;
+  return (Math.round(num * 10) / 10).toString();
 }
 
 // Note!
