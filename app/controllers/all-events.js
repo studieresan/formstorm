@@ -4,6 +4,7 @@ const util = require('../util');
 module.exports.allEvents = function(req, res) {
   try {
     let events = db.getAllEvents();
+    util.sortEvents(events);
     util.convertToStringDate(events);
     res.render('all-events', {events});
   } catch(err) {

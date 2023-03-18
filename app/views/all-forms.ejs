@@ -1,11 +1,173 @@
-<fieldset>
-  <legend>Preview a form</legend>
-  <form method="GET" action="/form">
-    <label for="form_type_id">Form type: </label>
-    <select name="form_type_id" id="form_type_id" style="margin-bottom: 5px;">
-      <option value="1">Pre</option>
-      <option value="2">Post</option>
-    </select><br>
-    <input type="submit" value="Preview">
-  </form>
-</fieldset>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/uikit.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all-forms.css">
+  </head>
+  <body>
+    <div class="uk-container uk-container-small">
+      <a href="/">
+        <button class="uk-button-default uk-button-small uk-margin-top" type="button" style="padding: 5px 15px 5px 15px;">✕</button>
+      </a>
+
+      <h3 class="uk-text-center uk-margin-remove-top">Forms</h3> 
+
+      <div class="info-msg uk-alert-primary uk-padding-small" id="info-msg" uk-alert><%= infoMsg %></div>
+
+      <span uk-icon="icon: plus" uk-toggle="target: #create-form-modal"></span>
+      
+      <div id="create-form-modal" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+          <form id="create-form-form" method="POST" action="/info/create-form">
+            <fieldset class="uk-fieldset">
+              
+              <button class="uk-modal-close-default" type="button" uk-close></button>
+
+              <legend class="uk-legend uk-text-center">Create new form</legend>
+
+              <div class="uk-margin">
+                <label class="uk-form-label" for="name">Name of form: </label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" name="name" id="name" value="">
+                </div>
+              </div>
+
+              <div class="uk-margin">
+                <label class="uk-form-label" for="prepost">Form type: </label>
+                <select name="prepost" class="uk-select">
+                  <option value="0">Pre</option>
+                  <option value="1">Post</option>
+                </select>
+              </div>
+
+              <div class="uk-margin">
+                <label><input id="from-scratch" class="uk-radio" type="radio" name="clone" value="false" checked> Create from scratch</label><br>
+                <label><input id="clone" class="uk-radio" type="radio" name="clone" value="true"> Clone existing form</label>
+              </div>
+
+              <div class="uk-margin">
+                <select name="form_type_id" id="clone-form-type" disabled class="uk-select" aria-label="Select">
+                  <% forms.forEach((form) => { %>
+                    <option value="<%= form.form_type_id %>"><%= form.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+
+              <input class="uk-button uk-button-default uk-align-center" type="submit" value="Create">
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <table class="uk-table uk-table-divider">
+        <thead>
+          <tr>
+            <th>Form name</th>
+            <th>Type</th>
+            <th><span class="uk-icon uk-icon-image number-events"></span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% forms.forEach((form) => { %>
+            <tr>
+              <td>
+                <% if (defaultForms.includes(form.form_type_id)) { %>
+                  <span uk-icon="icon: star"></span>
+                <% } %>
+                <%= form.name %>
+              </td>
+              <td>
+                <% if (form.prepost === 0) { %>
+                  Pre
+                <% } else { %>
+                  Post
+                <% } %>
+              </td>
+              <td><%= form.count %></td>
+              <td>
+                <span class="edit-form-button" uk-icon="icon: file-edit" uk-toggle="target: #form-<%= form.form_type_id %>"></span>
+              </td>
+            </tr>
+            <div id="form-<%= form.form_type_id %>" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+
+                <form id="create-event-form" method="POST" action="/info/update-name">
+                  <fieldset class="uk-fieldset">    
+                    <legend class="uk-legend">
+                      <%= form.name %> - 
+                      <% if (form.prepost === 0) { %>
+                        Pre
+                      <% } else { %>
+                        Post
+                      <% } %>
+                    </legend>
+                  
+                    <input type="hidden" name="form_type_id" value="<%= form.form_type_id %>">
+          
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="name">Form name: </label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="text" name="name" id="name" value="<%= form.name %>">
+                      </div>
+                    </div>
+                    
+                    <div class="uk-margin">
+                      <input class="uk-input" type="submit" value="Update">
+                    </div>
+                  </fieldset>
+                </form>
+
+                <hr class="uk-divider-icon">
+
+                <div class="uk-card uk-card-body uk-width-1-2@m uk-align-center uk-padding-remove-top uk-padding-remove-bottom">
+                  <a href="/info/set-default?form_type_id=<%= form.form_type_id %>">
+                    <button class="uk-button uk-button-default uk-button-small uk-width-expand uk-align-center">
+                      Set as default
+                    </button>
+                  </a>
+                  <a href="/form?form_type_id=<%= form.form_type_id %>&edit">
+                    <button class="uk-button uk-button-default uk-button-small uk-width-expand uk-align-center">
+                      Edit questions...
+                    </button>
+                  </a>
+                  <a href="/form?form_type_id=<%= form.form_type_id %>">
+                    <button class="uk-button uk-button-default uk-button-small uk-width-expand uk-align-center">
+                      Preview...
+                    </button>
+                  </a>
+                  <a href="/info/delete-form?form_type_id=<%= form.form_type_id %>">
+                    <button class="uk-button uk-button-danger uk-button-small uk-width-expand uk-align-center">
+                      Delete
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </tbody>
+      </table>
+      <br>
+    </div>
+
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
+    <script>
+      let formTypeSelect = document.getElementById('clone-form-type');
+      let fromScratch = document.getElementById('from-scratch');
+      let clone = document.getElementById('clone');
+
+      clone.onchange = function() {
+        formTypeSelect.removeAttribute("disabled");
+      };
+
+      fromScratch.onchange = function() {
+        formTypeSelect.setAttribute("disabled", true);
+      };
+    </script>
+  </body>
+</html>

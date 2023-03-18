@@ -15,9 +15,18 @@ async function checkIfChannelExists(name) {
   }
 }
 
+function getDefaultForms() {
+  let defaultForms = db.getDefaultForms();
+  return {
+    pre: defaultForms.filter((x) => x.prepost === 0).map((x) => x.form_type_id)[0],
+    post: defaultForms.filter((x) => x.prepost === 1).map((x) => x.form_type_id)[0]
+  };
+}
+
 async function createEventDB(data, projectGroup) {
   let d = Math.floor((new Date(data.date)) / 1000);
-  let info = db.createEvent(d, data.company_name, data.description, data.pre_form, data.post_form);
+  let defaultForms = getDefaultForms();
+  let info = db.createEvent(d, data.company_name, data.description, defaultForms.pre, defaultForms.post);
   let eventId = info.lastInsertRowid;
 
   for (let i = 0; i < projectGroup.length; i++) {

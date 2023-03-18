@@ -59,7 +59,14 @@ module.exports.getNonPostAnsweredAttendees = function(eventId) {
 };
 
 module.exports.getAllAttendeesBySlackUserId = function(slackUserId) {
-  let stmt = db.prepare('SELECT * FROM attendees WHERE slack_user_id=? OR (substitute_slack_id=? AND status=1)');
+  let sql = `
+    SELECT * FROM (
+      SELECT * FROM attendees WHERE slack_user_id=? OR (substitute_slack_id=? AND status=1)
+    ) AS attendees INNER JOIN (
+      company_events
+    ) ON attendees.event_id = company_events.event_id;
+  `;
+  let stmt = db.prepare(sql);
   return stmt.all(slackUserId, slackUserId);
 };
 
@@ -152,6 +159,11 @@ module.exports.getEventBySlackChannelId = function(channelId) {
   return stmt.get(channelId);
 };
 
+module.exports.getEventsByFormTypeId = function(formTypeId) {
+  let stmt = db.prepare('SELECT * FROM company_events WHERE pre_form=? OR post_form=?');
+  return stmt.all(formTypeId, formTypeId);
+};
+
 module.exports.getAllEvents = function() {
   let stmt = db.prepare('SELECT * FROM company_events');
   return stmt.all();
@@ -195,6 +207,16 @@ module.exports.updateLastRemind = function(eventId, remindTime, noPersons) {
   stmt.run(remindTime, noPersons, eventId);
 };
 
+module.exports.getDefaultForms = function() {
+  let stmt = db.prepare('SELECT * FROM default_form_types');
+  return stmt.all();
+};
+
+module.exports.setDefaultForm = function(formTypeId, prepost) {
+  let stmt = db.prepare('UPDATE default_form_types SET form_type_id=? WHERE prepost=?');
+  stmt.run(formTypeId, prepost);
+};
+
 module.exports.getFormQuestions = function(formTypeId) {
   let stmt = db.prepare('SELECT * FROM form_questions WHERE form_type_id=?');
   let rows = stmt.all(formTypeId);
@@ -219,9 +241,44 @@ module.exports.getFormType = function(formTypeId) {
   return stmt.get(formTypeId);
 };
 
+module.exports.getFormTypeByName = function(name) {
+  let stmt = db.prepare('SELECT * FROM form_types WHERE name=?');
+  return stmt.get(name);
+};
+
+module.exports.getAllFormTypes = function() {
+  let sql = `
+    SELECT * FROM
+    form_types
+    LEFT JOIN (
+      SELECT COUNT(event_id) AS cnt_pre, pre_form
+      FROM company_events
+      GROUP BY pre_form
+    ) AS pre
+    ON form_types.form_type_id = pre.pre_form
+    LEFT JOIN (
+      SELECT COUNT(event_id) AS cnt_post, post_form
+      FROM company_events
+      GROUP BY post_form
+    ) AS post
+    ON form_types.form_type_id = post.post_form;
+  `;
+  let stmt = db.prepare(sql);
+  return stmt.all();
+};
+
 module.exports.createFormType = function(name, prepost) {
   let res = db.prepare('INSERT INTO form_types (name, prepost) VALUES (?, ?)').run(name, prepost);
   return res.lastInsertRowid;
+};
+
+module.exports.deleteFormType = function(formTypeId) {
+  db.prepare('DELETE FROM form_types WHERE form_type_id=?').run(formTypeId);
+};
+
+module.exports.updateFormName = function(formTypeId, name) {
+  let stmt = db.prepare('UPDATE form_types SET name=? WHERE form_type_id=?');
+  return stmt.run(name, formTypeId);
 };
 
 module.exports.getProjectGroupMember = function(slackUserId) {

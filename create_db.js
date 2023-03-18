@@ -7,12 +7,14 @@ db.pragma('journal_mode = WAL');
 
 function createFormTemplate(json, name, prepost) {
   let res = db.prepare('INSERT INTO form_types (name, prepost) VALUES (?, ?)').run(name, prepost);
-  let id = res.lastInsertRowid;
+  let id = res.lastInsertRowid;  
   
   json.forEach((q) => {
     let sql = `INSERT INTO form_questions (form_type_id, question_number, value, type, mandatory) VALUES (?, ?, ?, ?, ?);`;
     db.prepare(sql).run(id, q.question_number, JSON.stringify(q.value), q.type, q.mandatory);
   });
+
+  return id;
 }
 
 function createSchema() {
@@ -45,6 +47,11 @@ function createSchema() {
       auto_remind       INTEGER,
       last_remind_time  INTEGER,
       no_last_reminded  INTEGER
+    );
+
+    CREATE TABLE default_form_types (
+      form_type_id  INTEGER,
+      prepost       INTEGER
     );
 
     CREATE TABLE form_questions (
@@ -95,5 +102,9 @@ const defaultPreFormJson = fs.readFileSync('defaultPre.json');
 const defaultPostFormJson = fs.readFileSync('defaultPost.json');
 
 createSchema();
-createFormTemplate(JSON.parse(defaultPreFormJson), "Pre v1", 0);
-createFormTemplate(JSON.parse(defaultPostFormJson), "Post v1", 1);
+
+let pre_id = createFormTemplate(JSON.parse(defaultPreFormJson), "Pre v1", 0);
+let post_id = createFormTemplate(JSON.parse(defaultPostFormJson), "Post v1", 1);
+
+db.prepare('INSERT INTO default_form_types (form_type_id, prepost) VALUES (?, ?)').run(pre_id, 0);
+db.prepare('INSERT INTO default_form_types (form_type_id, prepost) VALUES (?, ?)').run(post_id, 1);

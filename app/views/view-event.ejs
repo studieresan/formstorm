@@ -101,6 +101,12 @@
         <div class="uk-modal-dialog uk-modal-body">
           <button class="uk-modal-close-default" type="button" uk-close></button>
 
+          <legend class="uk-legend">Forms used</legend>
+          <p>Pre-form name: <%= formTypes.pre.name %></p>
+          <p>Post-form name: <%= formTypes.post.name %></p>
+
+          <hr class="uk-divider-icon">
+
           <form method="POST" action="/event/export-forms">
             <fieldset class="uk-fieldset">
               <legend class="uk-legend">Export forms</legend>
@@ -127,9 +133,6 @@
           <span uk-icon="icon: check"></span>
         <% } %>
       </p>
-
-      <!--<p>Pre-form: <%= formTypes.pre.name %></p>
-      <p>Post-form: <%= formTypes.post.name %></p>-->
 
       <table class="uk-table uk-table-divider">
         <thead>

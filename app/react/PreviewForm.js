@@ -70,7 +70,7 @@ export function FormWrapperPreview(props) {
 
   return (
     <div>
-      <a href='/'><button>Back to home</button></a>
+      <a href='/info'><button>Back to home</button></a>
       <TopInfo formType={state.formType} userData={state.userData} event={state.event} />
       <h4 className='center'>Form name: {formName}</h4>
       <ErrorMessage msg={state.errMsg} />

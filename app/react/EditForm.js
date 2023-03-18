@@ -16,9 +16,7 @@ function TopInfo(props) {
 }
 
 function ErrorMessage(props) {     
-  let warn = props.msg === '' ?
-              '' :
-              ' ⚠ ';
+  let warn = props.error ? ' ⚠ ' : '' ;
   
   return (
     <div>
@@ -33,7 +31,8 @@ function ErrorMessage(props) {
 export function FormWrapperEdit(props) {
   const [state, setState] = useState({
     formType: {},
-    errMsg: ''
+    infoMsg: '',
+    error: false
   });
 
   function submitNewForm(questions) {
@@ -48,8 +47,7 @@ export function FormWrapperEdit(props) {
       })
     }).then(getFetchErr('text'))
       .then((data) => {
-        console.log("success:");
-        console.log(data);
+        displaySuccess('Form updated!');
       })
       .catch((err) => {
         displayErr(err);
@@ -59,7 +57,17 @@ export function FormWrapperEdit(props) {
   function displayErr(s) {
     setState({
       ...state,
-      errMsg: String(s)
+      infoMsg: String(s),
+      error: true
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function displaySuccess(s) {
+    setState({
+      ...state,
+      infoMsg: String(s),
+      error: false
     });
     window.scrollTo(0, 0);
   }
@@ -79,7 +87,7 @@ export function FormWrapperEdit(props) {
     <div>
       <TopInfo formType={state.formType} />
       <h4 className='center'>Form name: {formName}</h4>
-      <ErrorMessage msg={state.errMsg} />
+      <ErrorMessage msg={state.infoMsg} error={state.error} />
       <Form questions={state.questions}
             submitNewForm={submitNewForm}
             formTypeId={props.form_type_id}

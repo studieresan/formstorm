@@ -193,8 +193,8 @@ module.exports.apiSubmitForm = async function(req, res) {
 module.exports.apiChangeQuestions = async function(req, res) {
   try {
     util.checkValidation(req);
-    if (!util.checkLoggedIn(req)) {
-      util.sendErr(res, new util.InternalError(400, 'You are not logged in'));
+    if (!util.checkLoggedInInfo(req)) {
+      util.sendErr(res, new util.InternalError(400, 'You are not logged in as an info admin!'));
     } else {
       formValidator.validateForm(req.body.data);
       db.replaceFormQuestions(req.body.form_type_id, req.body.data);

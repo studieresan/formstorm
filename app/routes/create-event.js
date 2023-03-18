@@ -12,8 +12,6 @@ router.post('/create',
   body('date').not().isEmpty().trim(),
   body('company_name').not().isEmpty().trim(),
   body('description').not().isEmpty().trim(),
-  body('pre_form').not().isEmpty().toInt(),
-  body('post_form').not().isEmpty().toInt(),
   controller.createEventPost
 );
 

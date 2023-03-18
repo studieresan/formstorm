@@ -395,9 +395,9 @@ export function Form(props) {
   }, [props.formTypeId]);
 
   let cancelSave = (
-    <div class="edit-cancel-save">
+    <div className="edit-cancel-save">
       <input type="button" value="Save" onClick={() => props.submitNewForm(questions)}/>
-      <a href='/'><input type="button" value="Cancel" /></a>
+      <a href='/info'><input type="button" value="Go back" /></a>
     </div>
   );
 

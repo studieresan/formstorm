@@ -1,0 +1,12 @@
+.number-events {
+  background-image: url(/img/123.svg);
+  filter: invert(68%) sepia(0%) saturate(151%) hue-rotate(202deg) brightness(86%) contrast(81%);
+}
+
+.edit-form-button {
+  cursor: pointer;
+}
+
+#info-msg:empty {
+  display: none;
+}
