@@ -65,6 +65,13 @@ module.exports.topBlock = function(adminInfo) {
   };
 };
 
+/* Important information about the links below:
+   There are two links, one to open a specific event (if logged in as event admin), and one to download
+   the forms (if logged in as info admin). Slack has a bug such that, if the link text only contains one
+   word or if contains any emojis, the link cannot be clicked on mobile devices (at least Android). So that
+   is why the "event" link has a dash (-) followed by a space in front of it. The "forms" link has the text
+   "Get forms". The original idea was to have a document emoji representing a form instead to make it more
+   compact, but that does not work (as explained above). */
 module.exports.header = function(event, adminInfo) {
   let dateEventObj = {date: event.date}; // copy the date value to new object
   util.convertToStringDate([dateEventObj], 'en-UK', {dateStyle: 'medium', timeStyle: 'short'});
@@ -76,13 +83,13 @@ module.exports.header = function(event, adminInfo) {
   if (adminInfo.event) {
     let redirectLink = `/event/view?event_id=${event.event_id}`;
     let loginLink = new URL(`login-with-token?token=${loginToken}&redirect=${redirectLink}`, process.env.URL).href;
-    eventText = `<${loginLink}|*${event.company_name}*>`;
+    eventText = `<${loginLink}|*- ${event.company_name}*>`;
   }
 
   if (adminInfo.info) {
     let redirectLink = `/info/export-forms?event_id=${event.event_id}`;
     let loginLink = new URL(`login-with-token?token=${loginToken}&redirect=${redirectLink}`, process.env.URL).href;
-    infoText = `<${loginLink}|:page_facing_up:>`;
+    infoText = `| <${loginLink}|Get forms>`; // :page_facing_up:
   }
 
   let text = `:studs:  ${eventText}  ${infoText}  ${dateEventObj.date}`;
