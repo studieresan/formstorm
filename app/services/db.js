@@ -41,6 +41,10 @@ module.exports.getAttendeesByEventId = function(eventId) {
   };
 };
 
+module.exports.getAttendeesWithSubstitutesByEventId = function(eventId) {
+  return db.prepare('SELECT * FROM attendees WHERE event_id=? AND status=1').all(eventId);
+};
+
 module.exports.getAttendeesAndUserDataByEventId = function(eventId) {
   let sql = `
     SELECT * FROM

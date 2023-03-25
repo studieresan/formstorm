@@ -13,6 +13,19 @@ async function checkIfBotInChannel(channel, invoker) {
   }
 }
 
+function excludeNonParticipants(members, channel) {
+  let event = db.getEventBySlackChannelId(channel);
+
+  if (event === undefined) {
+    // This is not an event channel, so there are no potential users to exclude:
+    return members;
+  } else {
+    let attendees = db.getAttendeesWithSubstitutesByEventId(event.event_id);
+    let idsToRemove = attendees.map((x) => x.slack_user_id);
+    return members.filter((x) => !idsToRemove.includes(x));
+  }
+}
+
 async function getNotReacted(reactions, channel) {
   if (reactions === undefined)
     var reactUsers = [];
@@ -20,7 +33,8 @@ async function getNotReacted(reactions, channel) {
     var reactUsers = reactions.map((r) => r.users).flat(1);
   let uniqueReactUsers = [...new Set(reactUsers)];
   let channelMembers = (await slack.getChannelMembers(channel)).members;
-  return channelMembers.filter(x => !uniqueReactUsers.includes(x) && !process.env.EXCLUDE_IDS.includes(x));
+  let notReacted = channelMembers.filter(x => !uniqueReactUsers.includes(x) && !process.env.EXCLUDE_IDS.includes(x));
+  return excludeNonParticipants(notReacted, channel);
 }
 
 async function remindDm(shortcut) {
