@@ -5,8 +5,10 @@ function getLoginToken(adminInfo) {
     return util.loginTokenBoth;
   else if (adminInfo.event)
     return util.loginTokenEvent;
-  else
+  else if (adminInfo.info)
     return util.loginTokenInfo;
+  else
+    return '';
 }
 
 function addLoginElem(actionsElements, adminInfo) {
@@ -69,16 +71,17 @@ module.exports.header = function(event, adminInfo) {
 
   let eventText = `*${event.company_name}*`;
   let infoText = '';
+  let loginToken = getLoginToken(adminInfo);
 
   if (adminInfo.event) {
     let redirectLink = `/event/view?event_id=${event.event_id}`;
-    let loginLink = new URL(`login-with-token?token=${util.loginTokenEvent}&redirect=${redirectLink}`, process.env.URL).href;
+    let loginLink = new URL(`login-with-token?token=${loginToken}&redirect=${redirectLink}`, process.env.URL).href;
     eventText = `<${loginLink}|*${event.company_name}*>`;
   }
 
   if (adminInfo.info) {
     let redirectLink = `/info/export-forms?event_id=${event.event_id}`;
-    let loginLink = new URL(`login-with-token?token=${util.loginTokenInfo}&redirect=${redirectLink}`, process.env.URL).href;
+    let loginLink = new URL(`login-with-token?token=${loginToken}&redirect=${redirectLink}`, process.env.URL).href;
     infoText = `<${loginLink}|:page_facing_up:>`;
   }
 
