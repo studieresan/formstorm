@@ -140,7 +140,8 @@ function storeHasAnswered(internalId, prepost) {
 }
 
 async function updateHomeAfterFormSubmit(attendee) {
-  await common.updateAppHome(attendee.slack_user_id);
+  if (attendee.slack_user_id !== null)
+    await common.updateAppHome(attendee.slack_user_id);
   if (attendee.status === 1)
     await common.updateAppHome(attendee.substitute_slack_id);
 }
