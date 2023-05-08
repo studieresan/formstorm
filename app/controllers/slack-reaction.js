@@ -26,6 +26,18 @@ function excludeNonParticipants(members, channel) {
   }
 }
 
+// If this is the company reaction channel, exclude those who are 
+// in the project group:
+function excludeCompanyReaction(members, channel) {
+  if (channel !== process.env.REACTION_CHANNEL_ID) {
+    return members;
+  } else {
+    let projectGroupIds = db.getProjectGroup();
+    let idsToRemove = projectGroupIds.map((x) => x.slack_user_id);
+    return members.filter((x) => !idsToRemove.includes(x));
+  }
+}
+
 async function getNotReacted(reactions, channel) {
   if (reactions === undefined)
     var reactUsers = [];
@@ -34,7 +46,8 @@ async function getNotReacted(reactions, channel) {
   let uniqueReactUsers = [...new Set(reactUsers)];
   let channelMembers = (await slack.getChannelMembers(channel)).members;
   let notReacted = channelMembers.filter(x => !uniqueReactUsers.includes(x) && !process.env.EXCLUDE_IDS.includes(x));
-  return excludeNonParticipants(notReacted, channel);
+  notReacted = excludeNonParticipants(notReacted, channel);
+  return excludeCompanyReaction(notReacted, channel);
 }
 
 async function remindDm(shortcut) {
