@@ -88,7 +88,7 @@
                 <select class="uk-select" id="pre_form" name="pre_form">
                   <option value="0">None</option>
                   <% for (let i = 0; i < data.preForms.length; i++) { %>
-                  <option value="<%= preForms[i].form_type_id %>">
+                  <option value="<%= data.preForms[i].form_type_id %>">
                     <%= data.preForms[i].name %>
                   </option>
                   <% } %>
@@ -100,7 +100,7 @@
                 <select class="uk-select" id="post_form" name="post_form">
                   <option value="0">None</option>
                   <% for (let i = 0; i < data.postForms.length; i++) { %>
-                  <option value="<%= postForms[i].form_type_id %>">
+                  <option value="<%= data.postForms[i].form_type_id %>">
                     <%= data.postForms[i].name %>
                   </option>
                   <% } %>
