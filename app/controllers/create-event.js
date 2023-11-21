@@ -38,8 +38,8 @@ async function createEventDB(data, projectGroup) {
     d,
     data.company_name,
     data.description,
-    defaultForms.pre,
-    defaultForms.post
+    data.pre_form || defaultForms.pre,
+    data.post_form || defaultForms.post
   );
   let eventId = info.lastInsertRowid;
 
@@ -67,11 +67,14 @@ module.exports.createEventGet = function (req, res) {
   let pre = forms.filter((x) => x.prepost === 0);
   let post = forms.filter((x) => x.prepost === 1);
 
+  console.log(pre);
+  console.log(post);
+
   res.render("create-event", {
     infoMsg: "",
     data: {
-      pre: pre,
-      post: post,
+      preForms: pre,
+      postForms: post,
     },
   });
 };
