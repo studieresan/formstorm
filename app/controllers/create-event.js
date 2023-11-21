@@ -67,9 +67,6 @@ module.exports.createEventGet = function (req, res) {
   let pre = forms.filter((x) => x.prepost === 0);
   let post = forms.filter((x) => x.prepost === 1);
 
-  console.log(pre);
-  console.log(post);
-
   res.render("create-event", {
     infoMsg: "",
     data: {
@@ -101,6 +98,14 @@ module.exports.createEventPost = async function (req, res) {
     });
   } catch (err) {
     let msg = util.processErr(err);
-    res.render("create-event", { infoMsg: msg, data: req.body });
+    let forms = db.getForms();
+    res.render("create-event", {
+      infoMsg: msg,
+      data: {
+        ...req.body,
+        preForms: forms.filter((x) => x.prepost === 0),
+        postForms: forms.filter((x) => x.prepost === 1),
+      },
+    });
   }
 };
