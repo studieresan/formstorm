@@ -1,60 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Create event</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/css/uikit.min.css" />
-    <link rel="stylesheet" type="text/css" href="/css/create-event.css">
+    <link rel="stylesheet" type="text/css" href="/css/create-event.css" />
   </head>
   <body>
     <div class="uk-container uk-container-small">
       <a href="/event">
-        <button class="uk-button-default uk-button-small uk-margin-top" type="button" style="padding: 5px 15px 5px 15px;">✕</button>
+        <button
+          class="uk-button-default uk-button-small uk-margin-top"
+          type="button"
+          style="padding: 5px 15px 5px 15px"
+        >
+          ✕
+        </button>
       </a>
-      <div class="uk-card uk-card-body uk-width-2-3@m uk-align-center uk-margin-remove-top">
-        <form id="create-event-form" method="POST" action="/event/create" class="uk-form-horizontal">
+      <div
+        class="uk-card uk-card-body uk-width-2-3@m uk-align-center uk-margin-remove-top"
+      >
+        <form
+          id="create-event-form"
+          method="POST"
+          action="/event/create"
+          class="uk-form-horizontal"
+        >
           <fieldset class="uk-fieldset">
             <legend class="uk-legend uk-text-center">Create event</legend>
 
-            <div class="info-msg uk-alert-primary uk-padding-small" uk-alert><%= infoMsg %></div>
-
-            <div class="uk-margin">
-              <label class="uk-form-label" for="company_name">Name of company: </label>
-              <div class="uk-form-controls">
-                  <input class="uk-input" type="text" name="company_name" id="company_name" value="<%= getp(data, 'company_name') %>">
-              </div>
-            </div>
-
-            <hr class="uk-divider-icon">
-
-            <div class="uk-margin">
-              <label class="uk-form-label" for="channel_name">Slack channel name: </label>
-              <div class="uk-form-controls">
-                  <input class="uk-input" type="text" id="channel_name" name="channel_name" value="<%= getp(data, 'channel_name') %>">
-              </div>
+            <div class="info-msg uk-alert-primary uk-padding-small" uk-alert>
+              <%= infoMsg %>
             </div>
 
             <div class="uk-margin">
-              <label class="uk-form-label" for="channel_name">(Resulting channel name:)</label>
+              <label class="uk-form-label" for="company_name"
+                >Name of company:
+              </label>
               <div class="uk-form-controls">
-                  <input readonly class="uk-input" type="text" id="res_channel_name">
+                <input
+                  class="uk-input"
+                  type="text"
+                  name="company_name"
+                  id="company_name"
+                  value="<%= getp(data, 'company_name') %>"
+                />
               </div>
             </div>
 
-            <hr class="uk-divider-icon">
+            <hr class="uk-divider-icon" />
+
+            <div class="uk-margin">
+              <label class="uk-form-label" for="channel_name"
+                >Slack channel name:
+              </label>
+              <div class="uk-form-controls">
+                <input
+                  class="uk-input"
+                  type="text"
+                  id="channel_name"
+                  name="channel_name"
+                  value="<%= getp(data, 'channel_name') %>"
+                />
+              </div>
+            </div>
+
+            <div class="uk-margin">
+              <label class="uk-form-label" for="channel_name"
+                >(Resulting channel name:)</label
+              >
+              <div class="uk-form-controls">
+                <input
+                  readonly
+                  class="uk-input"
+                  type="text"
+                  id="res_channel_name"
+                />
+              </div>
+            </div>
+
+            <hr class="uk-divider-icon" />
+            <!-- Select pre and post form -->
+            <div class="uk-margin">
+              <label class="uk-form-label" for="pre_form">Pre-form: </label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="pre_form" name="pre_form">
+                  <option value="0">None</option>
+                  <% for (let i = 0; i < preForms.length; i++) { %>
+                  <option value="<%= preForms[i].form_type_id %>">
+                    <%= preForms[i].name %>
+                  </option>
+                  <% } %>
+                </select>
+              </div>
+
+              <label class="uk-form-label" for="post_form">Post-form: </label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="post_form" name="post_form">
+                  <option value="0">None</option>
+                  <% for (let i = 0; i < postForms.length; i++) { %>
+                  <option value="<%= postForms[i].form_type_id %>">
+                    <%= postForms[i].name %>
+                  </option>
+                  <% } %>
+                </select>
+              </div>
+            </div>
+
+            <hr class="uk-divider-icon" />
 
             <div class="uk-margin">
               <label class="uk-form-label" for="date">Date & time: </label>
               <div class="uk-form-controls">
-                  <input class="uk-input" type="datetime-local" id="date" name="date" value="<%= getp(data, 'date', '2023-01-01T18:00') %>">
+                <input
+                  class="uk-input"
+                  type="datetime-local"
+                  id="date"
+                  name="date"
+                  value="<%= getp(data, 'date', '2023-01-01T18:00') %>"
+                />
               </div>
             </div>
 
             <!-- Description is currently not used anywhere, so it's hidden for now: -->
-            <input type="hidden" name="description" id="description" value="<%= getp(data, 'description', '-') %>">
+            <input
+              type="hidden"
+              name="description"
+              id="description"
+              value="<%= getp(data, 'description', '-') %>"
+            />
 
-            <input class="uk-button uk-button-default uk-align-center" type="submit" value="Create">
+            <input
+              class="uk-button uk-button-default uk-align-center"
+              type="submit"
+              value="Create"
+            />
           </fieldset>
         </form>
       </div>
@@ -62,7 +143,7 @@
     <script>
       const source = document.getElementById("channel_name");
       const dest = document.getElementById("res_channel_name");
-      source.oninput = function() {
+      source.oninput = function () {
         dest.value = "#event-" + source.value;
       };
       source.oninput();
