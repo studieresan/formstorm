@@ -91,7 +91,14 @@ module.exports.createEventPost = async function (req, res) {
     await addProjectGroupToChannel(projectGroup, createResponse.channel.id);
     db.setEventChannelId(eventId, createResponse.channel.id);
     await postNewEventMessage(createResponse.channel.id);
-    res.render("create-event", { infoMsg: "Event created!", data: {} });
+    let forms = db.getForms();
+    res.render("create-event", {
+      infoMsg: "Event created!",
+      data: {
+        preForms: forms.filter((x) => x.prepost === 0),
+        postForms: forms.filter((x) => x.prepost === 1),
+      },
+    });
   } catch (err) {
     let msg = util.processErr(err);
     res.render("create-event", { infoMsg: msg, data: req.body });
