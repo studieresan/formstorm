@@ -1,26 +1,27 @@
-import {getFetchErr} from '/js/rendered-react/common.js';
+import { getFetchErr } from "/js/rendered-react/common.js";
 
-const { useState, useEffect } = React;
+import { useState, useEffect } from "react";
 
-Array.prototype.replaceElem = function(index, newElem) {
+Array.prototype.replaceElem = function (index, newElem) {
   return this.map((elem, i) => {
-    if (i == index)
-      return newElem;
-    else
-      return elem;
+    if (i == index) return newElem;
+    else return elem;
   });
 };
 
 function Legend(props) {
-  let mandatory = props.question.mandatory === 1 ?
-                  <span className='mandatory-span'>*</span> :
-                  '';
+  let mandatory =
+    props.question.mandatory === 1 ? (
+      <span className="mandatory-span">*</span>
+    ) : (
+      ""
+    );
 
   return (
     <legend>
       Question {props.question.question_number} {mandatory}
     </legend>
-  )
+  );
 }
 
 function TextInputFormElem(props) {
@@ -30,10 +31,14 @@ function TextInputFormElem(props) {
 
   return (
     <fieldset>
-      <Legend question={props.question}/>
+      <Legend question={props.question} />
       <p>{largeText}</p>
-      <p style={{fontSize: "13px"}}>{smallText}</p>
-      <textarea value={props.answer} onChange={props.onFieldChange} rows="4"></textarea>
+      <p style={{ fontSize: "13px" }}>{smallText}</p>
+      <textarea
+        value={props.answer}
+        onChange={props.onFieldChange}
+        rows="4"
+      ></textarea>
     </fieldset>
   );
 }
@@ -41,8 +46,13 @@ function TextInputFormElem(props) {
 function RadioBoxElem(props) {
   return (
     <div>
-      <input type="radio" id={props.id} value={props.value} onChange={props.onFieldChange}
-              checked={props.value === props.answer}/>
+      <input
+        type="radio"
+        id={props.id}
+        value={props.value}
+        onChange={props.onFieldChange}
+        checked={props.value === props.answer}
+      />
       <label htmlFor={props.id}>{props.value}</label>
     </div>
   );
@@ -54,13 +64,22 @@ function RadioBoxesFormElem(props) {
   const alternatives = q.alternatives;
 
   let radioBoxes = alternatives.map((value, i) => {
-    const id = "radio-question-" + props.question.question_number + "-alternative-" + i;
-    return (<RadioBoxElem key={i} value={value} answer={props.answer} onFieldChange={props.onFieldChange} id={id} />);
+    const id =
+      "radio-question-" + props.question.question_number + "-alternative-" + i;
+    return (
+      <RadioBoxElem
+        key={i}
+        value={value}
+        answer={props.answer}
+        onFieldChange={props.onFieldChange}
+        id={id}
+      />
+    );
   });
 
   return (
     <fieldset>
-      <Legend question={props.question}/>
+      <Legend question={props.question} />
       <p>{question}</p>
       {radioBoxes}
     </fieldset>
@@ -70,9 +89,17 @@ function RadioBoxesFormElem(props) {
 function RangeBoxElem(props) {
   return (
     <div className="flex-mid">
-      <label className="range-label" htmlFor={props.id}>{props.value}</label>
-      <input className="range-radio" type="radio" id={props.id} value={props.value} onChange={props.onFieldChange}
-              checked={props.value === props.answer}/>
+      <label className="range-label" htmlFor={props.id}>
+        {props.value}
+      </label>
+      <input
+        className="range-radio"
+        type="radio"
+        id={props.id}
+        value={props.value}
+        onChange={props.onFieldChange}
+        checked={props.value === props.answer}
+      />
     </div>
   );
 }
@@ -85,13 +112,22 @@ function RangeFormElem(props) {
   const num = q.range;
 
   let radioBoxes = [...Array(parseInt(num)).keys()].map((i) => {
-    const id = "radio-question-" + props.question.question_number + "-alternative-" + i;
-    return (<RangeBoxElem key={i} value={(i+1).toString()} answer={props.answer} onFieldChange={props.onFieldChange} id={id} />);
+    const id =
+      "radio-question-" + props.question.question_number + "-alternative-" + i;
+    return (
+      <RangeBoxElem
+        key={i}
+        value={(i + 1).toString()}
+        answer={props.answer}
+        onFieldChange={props.onFieldChange}
+        id={id}
+      />
+    );
   });
 
   return (
     <fieldset>
-      <Legend question={props.question}/>
+      <Legend question={props.question} />
       <p>{question}</p>
       <div className="range-flex">
         <div className="flex-left">
@@ -108,25 +144,46 @@ function RangeFormElem(props) {
 
 export function Form(props) {
   const [questions, setQuestions] = useState([]);
-  
+
   let formElements = questions.map((question, i) => {
     if (question.type === 0) {
-      return (<TextInputFormElem key={i} question={question} answer={props.answers[i]}
-                onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}/>);
+      return (
+        <TextInputFormElem
+          key={i}
+          question={question}
+          answer={props.answers[i]}
+          onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}
+        />
+      );
     } else if (question.type === 1) {
-      return (<RadioBoxesFormElem key={i} question={question} answer={props.answers[i]}
-                onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}/>);
+      return (
+        <RadioBoxesFormElem
+          key={i}
+          question={question}
+          answer={props.answers[i]}
+          onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}
+        />
+      );
     } else if (question.type === 2) {
-      return (<RangeFormElem key={i} question={question} answer={props.answers[i]}
-                onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}/>);
-    } 
+      return (
+        <RangeFormElem
+          key={i}
+          question={question}
+          answer={props.answers[i]}
+          onFieldChange={(e) => props.handleFieldChange(i, e.target.value)}
+        />
+      );
+    }
   });
 
   function fetchForm(formTypeId) {
     fetch("/api/form/get-form?form_type_id=" + formTypeId)
-      .then(getFetchErr('json'))
+      .then(getFetchErr("json"))
       .then((data) => {
-        props.formReady(data.formQuestions.map((elem) => ""), data.formType);
+        props.formReady(
+          data.formQuestions.map((elem) => ""),
+          data.formType
+        );
         setQuestions(data.formQuestions);
       })
       .catch((err) => {
@@ -140,9 +197,5 @@ export function Form(props) {
     }
   }, [props.formTypeId]);
 
-  return (
-    <form>
-      {formElements}
-    </form>
-  );
+  return <form>{formElements}</form>;
 }
